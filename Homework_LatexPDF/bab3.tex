@@ -6,7 +6,7 @@ Tugas ini dilakukan sesuai dengan desain sistem berikut beserta implementasinya.
 \subsection{Deskripsi sistem}
 Pada tugas ini kita akan melakukan analisis data dan membangun model klasifikasi untuk memprediksi apakah pelanggan perusahaan telekomunikasi penyedia wifi akan berhenti berlangganan atau tidak. Dataset yang digunakan adalah dataset churn pelanggan yang berisi informasi tentang pelanggan, seperti jenis layanan, jenis kelamin, status pekerjaan, biaya langganan, dan informasi lainnya. Desain sistem ini mencakup langkah-langkah yang akan dijabarkan dalam Gambar \ref{fig:desain_sistem}.
 
-\begin{figure}[ht]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{gambar/metodologi.png}
     \caption{Desain Sistem}
@@ -184,4 +184,91 @@ Adapun pembagiannya sebagai berikut :
 \subsection{Analisis Fitur Kategorikal}
 Analisis fitur kategorikal dilakukan untuk memahami distribusi dari setiap fitur kategorikal dalam dataset. Kita akan menggunakan visualisasi seperti bar plot untuk melihat jumlah pelanggan berdasarkan setiap kategori. Namun agar barplot tidak terlalu banyak kita akan uji dengan chi square terlebih dahulu untuk melihat fitur mana saja yang signifikan terhadap target variabel Churn. Dengan begitu kita bisa plot barplot hanya untuk fitur yang signifikan saja.
 
-Setelah melakukan pengecekan menggunakan chi-square saya menemukan bahwa terdapat fitur fitur yang signifikan terhadap target variabel Churn. 
+
+
+% Berikut hasil uji chi square, buatkan tabel perangkingan dari hasil ini beserta outputnya
+% InternetService : Chi-squared: 728.6956143058694, p-value: 5.831198962237274e-159, degrees of freedom: 2. There is a significant association between Internet Service and Churn. Cramer's V: 0.3219093912684771
+% Gender: Chi-squared: 0.47545453727386294, p-value: 0.490488470706551, degrees of freedom: 1. There is no significant association between Gender and Churn. Cramer's V: 0.008222711767086818
+% SeniorCitizen : Chi-squared: 158.4408162893713, p-value: 2.4792557203954705e-36, degrees of freedom: 1 There is a significant association between Senior Citizen and Churn. Cramer's V: 0.15010463561752393
+% Partner : Chi-squared: 157.50315146557506, p-value: 3.97379757451591e-36, degrees of freedom: 1 There is a significant association between Partner and Churn. Cramer's V: 0.1496598111790044
+% Dependents : Chi-squared: 186.32163933855873, p-value: 2.0196592017051303e-42, degrees of freedom: 1. There is a significant association between Dependents and Churn. Cramer's V: 0.16277669159928557
+% PhoneService : Chi-squared: 0.8737327674431736, p-value: 0.34992398942431924, degrees of freedom: 1. There is no significant association between Phone Service and Churn. Cramer's V: 0.011146791573280324
+% MultipleLines : Chi-squared: 11.271540824020612, p-value: 0.0035679273999811405, degrees of freedom: 2. There is a significant association between Multiple Lines and Churn. Cramer's V: 0.040036141280711854
+% OnlineSecurity : Chi-squared: 846.6773889208487, p-value: 1.4006867477839222e-184, degrees of freedom: 2. There is a significant association between Online Security and Churn. Cramer's V: 0.3469920701082114
+% OnlineBackup : Chi-squared: 599.1751847059026, p-value: 7.776099238804965e-131, degrees of freedom: 2. There is a significant association between Online Backup and Churn. Cramer's V: 0.291902273936468
+% DeviceProtection : Chi-squared: 555.8803273428508, p-value: 1.9593887862403176e-121, degrees of freedom: 2 . There is a significant association between Device Protection and Churn. Cramer's V: 0.28115850233148504
+% TechSupport : Chi-squared: 824.925564387502, p-value: 7.407807748843711e-180, degrees of freedom: 2. There is a significant association between Tech Support and Churn. Cramer's V: 0.342505815780552
+% StreamingTV : Chi-squared: 372.4565019355074, p-value: 1.324641113169159e-81, degrees of freedom: 2. There is a significant association between Streaming TV and Churn. Cramer's V: 0.23014330684583634
+% StreamingMovies : Chi-squared: 374.2684315732459, p-value: 5.353560421401324e-82, degrees of freedom: 2. There is a significant association between Streaming Movies and Churn. Cramer's V: 0.23070242924775253
+% PaperlessBilling : Chi-squared: 256.87490836218717, p-value: 8.236203353962564e-58, degrees of freedom: 1. There is a significant association between Paperless Billing and Churn. Cramer's V: 0.19112672191120977
+% PaymentMethod : Chi-squared: 645.4299001234638, p-value: 1.4263098511063342e-139, degrees of freedom: 3. There is a significant association between Payment Method and Churn. Cramer's V: 0.30295987245491557
+% Contract : Chi-squared: 1179.5458287339445, p-value: 7.326182186265472e-257, degrees of freedom: 2 There is a significant association between Contract and Churn. Cramer's V: 0.4095604189089921
+
+%buatkan tabel dari data diatas dengan kolom nama_fitur, chi_squared, p_value, significant_association, cramer_v
+
+Setelah melakukan pengecekan menggunakan chi-square saya menemukan bahwa terdapat fitur fitur yang signifikan terhadap target variabel Churn. Adapun Tabel \ref{tabel_uji}berikut adalah hasil dari uji chi-square yang dilakukan.
+
+\begin{table}[H]
+    \centering
+    \caption{Hasil Uji Chi-Square}
+    \label{tabel_uji}
+    \begin{tabular}{|l|l|l|l|l|}
+        \hline
+        \textbf{Nama Fitur} & \textbf{Chi-Squared} & \textbf{P-Value} & \textbf{Significant Association} & \textbf{Cramer's V} \\ \hline
+        Contract & 1179.55 & $7.33 \times 10^{-257}$ & Ya & 0.4096 \\ \hline
+        TechSupport & 824.93 & $7.41 \times 10^{-180}$ & Ya & 0.3425 \\ \hline
+        OnlineSecurity & 846.68 & $1.40 \times 10^{-184}$ & Ya & 0.3470 \\ \hline
+        InternetService & 728.70 & $5.83 \times 10^{-159}$ & Ya & 0.3219 \\ \hline
+        PaymentMethod & 645.43 & $1.43 \times 10^{-139}$ & Ya & 0.3030 \\ \hline
+        OnlineBackup & 599.18 & $7.78 \times 10^{-131}$ & Ya & 0.2919 \\ \hline
+        DeviceProtection & 555.88 & $1.96 \times 10^{-121}$ & Ya & 0.2812 \\ \hline
+        StreamingMovies & 374.27 & $5.35 \times 10^{-82}$ & Ya & 0.2307 \\ \hline
+        StreamingTV & 372.46 & $1.32 \times 10^{-81}$ & Ya & 0.2301 \\ \hline
+        Dependents & 186.32 & $2.02 \times 10^{-42}$ & Ya & 0.1628 \\ \hline
+        SeniorCitizen & 158.44 & $2.48 \times 10^{-36}$ & Ya & 0.1501 \\ \hline
+        Partner & 157.50 & $3.97 \times 10^{-36}$ & Ya & 0.1497 \\ \hline
+        MultipleLines & 11.27 & 0.0036 & Ya & 0.0400 \\ \hline
+        PhoneService & 0.87 & 0.35 & Tidak & 0.0111 \\ \hline
+        Gender & 0.48 & 0.49 & Tidak & 0.0082 \\ \hline
+
+    \end{tabular}
+\end{table}
+
+Dapat dilihat bahwa fitur yang memiliki nilai Chi-Squared yang tinggi dan p-value yang sangat kecil menunjukkan adanya hubungan yang signifikan dengan target variabel Churn. Fitur-fitur seperti Contract, TechSupport, OnlineSecurity, dan InternetService memiliki nilai Cramer's V yang cukup tinggi, menunjukkan bahwa fitur-fitur tersebut memiliki pengaruh yang signifikan terhadap keputusan pelanggan untuk berhenti berlangganan.
+
+Sedangkan fitur dengan nilai Chi-Squared yang rendah dan p-value yang tinggi menunjukan kebalikannya yaitu tidak ada hubungan yang signifikan terhadap label target variabel churn. Fitur-fitur seperti PhoneService dan Gender tidak menunjukkan hubungan yang signifikan dengan target variabel Churn, sehingga kita tidak perlu melakukan analisis lebih lanjut terhadap fitur-fitur tersebut. 
+
+Setelah mengetahui fitur-fitur yang signifikan, kita akan melakukan visualisasi untuk melihat distribusi dari setiap fitur kategorikal yang signifikan terhadap target variabel Churn. Kita akan menggunakan bar plot untuk melihat jumlah pelanggan berdasarkan setiap kategori.
+
+Adapun pertanyaan yang ingin saya jawab untuk analisis fitur kategorikal ini adalah sebagai berikut:
+\begin{itemize}
+    \item Apakah pelanggan yang dengan contract kerja tertentu cendrung churn?
+    \item Apakah pelanggan yang memilih langganan dengan paket bantuan TechSupport cendrung churn?
+    \item Apakah pelanggan yang memilih layanan keamanan online cendrung churn?
+    \item Apakah pelanggan yang memilih layanan internet tertentu cendrung churn?
+    \item Apakah pelanggan yang memilih metode pembayaran tertentu cendrung churn?
+\end{itemize}
+
+Untuk menjawab pertanyaan pertama yaitu apakah pelanggan yang dengan contract kerja tertentu cenderung churn, kita akan membuat bar plot untuk melihat jumlah pelanggan berdasarkan jenis kontrak. Kita akan membandingkan jumlah pelanggan yang churn dan tidak churn berdasarkan jenis kontrak. Dengan menggunakan .barplot() dari Seaborn, kita bisa membuat visualisasi yang jelas dan mudah dipahami. Gambar \ref{fig:contract_churn} menunjukkan hasil dari visualisasi tersebut.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{gambar/contract.png}
+    \caption{Jumlah Pelanggan Churn Berdasarkan Jenis Kontrak}
+    \label{fig:contract_churn}
+\end{figure}
+
+Dari Gambar \ref{fig:contract_churn} dapat dilihat bahwa pelanggan dengan kontrak "Month-to-month" memiliki jumlah churn yang paling tinggi dibandingkan dengan kontrak "One year" dan "Two year". Hal ini menunjukkan bahwa pelanggan yang memilih kontrak bulanan cenderung lebih sering berhenti berlangganan dibandingkan dengan pelanggan yang memilih kontrak tahunan atau dua tahunan.
+
+Untuk pertanyaan kedua yaitu apakah pelanggan yang memilih langganan dengan paket bantuan TechSupport cenderung churn, kita akan membuat bar plot untuk melihat jumlah pelanggan berdasarkan pilihan TechSupport. Kita akan membandingkan jumlah pelanggan yang churn dan tidak churn berdasarkan pilihan TechSupport. Gambar \ref{fig:techsupport_churn} menunjukkan hasil dari visualisasi tersebut.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{gambar/techsupport.png}
+    \caption{Jumlah Pelanggan Churn Berdasarkan Pilihan TechSupport}
+    \label{fig:techsupport_churn}
+\end{figure}
+
+Dari Gambar \ref{fig:techsupport_churn} dapat dilihat bahwa pelanggan yang memilih untuk menggunakan layanan TechSupport memiliki jumlah churn yang lebih rendah dibandingkan dengan pelanggan yang tidak menggunakan layanan TechSupport. Hal ini menunjukkan bahwa layanan TechSupport dapat membantu mengurangi tingkat churn pelanggan.
+
+Untuk pertanyaan ketiga yaitu apakah pelanggan yang memilih layanan keamanan online cenderung churn, kita akan membuat bar plot untuk melihat jumlah pelanggan berdasarkan pilihan OnlineSecurity. Kita akan membandingkan jumlah pelanggan yang churn dan tidak churn berdasarkan pilihan OnlineSecurity. Gambar \ref{fig:onlinesecurity_churn} menunjukkan hasil dari visualisasi tersebut.

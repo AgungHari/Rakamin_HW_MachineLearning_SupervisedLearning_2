@@ -119,6 +119,8 @@ INPUT c:/texlive/2024/texmf-dist/tex/latex/listings/lstmisc.sty
 INPUT c:/texlive/2024/texmf-dist/tex/latex/listings/listings.cfg
 INPUT c:/texlive/2024/texmf-dist/tex/latex/listings/listings.cfg
 INPUT c:/texlive/2024/texmf-dist/tex/latex/listings/listings.cfg
+INPUT c:/texlive/2024/texmf-dist/tex/latex/float/float.sty
+INPUT c:/texlive/2024/texmf-dist/tex/latex/float/float.sty
 INPUT c:/texlive/2024/texmf-dist/tex/latex/xcolor/xcolor.sty
 INPUT c:/texlive/2024/texmf-dist/tex/latex/xcolor/xcolor.sty
 INPUT c:/texlive/2024/texmf-dist/tex/latex/graphics-cfg/color.cfg
@@ -210,6 +212,16 @@ INPUT ./gambar/dataset.png
 INPUT c:/texlive/2024/texmf-dist/fonts/tfm/public/cm/cmtt12.tfm
 INPUT c:/texlive/2024/texmf-dist/fonts/tfm/public/cm/cmtt10.tfm
 INPUT c:/texlive/2024/texmf-dist/fonts/tfm/public/cm/cmr10.tfm
+INPUT ./gambar/contract.png
+INPUT ./gambar/contract.png
+INPUT ./gambar/contract.png
+INPUT ./gambar/contract.png
+INPUT ./gambar/contract.png
+INPUT ./gambar/techsupport.png
+INPUT ./gambar/techsupport.png
+INPUT ./gambar/techsupport.png
+INPUT ./gambar/techsupport.png
+INPUT ./gambar/techsupport.png
 INPUT ./bab4.tex
 INPUT ./bab4.tex
 INPUT ./bab4.tex
