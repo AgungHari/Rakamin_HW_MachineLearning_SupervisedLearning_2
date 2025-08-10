@@ -1,8 +1,8 @@
 # Fdb version 4
-["pdflatex"] 1754801763.08663 "d:/Rakamin_SupervisedLearning2/Homework_LatexPDF/main.tex" "main.pdf" "main" 1754801765.63584 0
+["pdflatex"] 1754807546.30866 "d:/Rakamin_SupervisedLearning2/Homework_LatexPDF/main.tex" "main.pdf" "main" 1754807548.90359 0
   "bab1.tex" 1754605540 2567 4808d81b666b860c8f11259a661fcbd6 ""
   "bab2.tex" 1754796390 16828 d79a1ab6d1083330d514efb9243cfa73 ""
-  "bab3.tex" 1754801761 33784 c8d45ca77e560ec2b4b2a62b67586d97 ""
+  "bab3.tex" 1754807544 40284 6bab152b9cd5060a8c05519774b8695b ""
   "bab4.tex" 1754601568 77 2452cbabb1b280f0bc3d5111d2b1203e ""
   "bab5.tex" 1754601580 40 d20a8b0c48374529a45e1918429b71a6 ""
   "c:/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1718771087 2900 1537cc8184ad1792082cd229ecc269f4 ""
@@ -119,8 +119,9 @@
   "gambar/onlinesecurity.png" 1754797247 19773 e9ae8cb29ab716f2578ccadf4668c943 ""
   "gambar/paymentmethod.png" 1754797923 33710 191f81d757cc716954215580d822d00e ""
   "gambar/techsupport.png" 1754796940 19323 e99214834e084f72a046358af7e6dfc7 ""
-  "main.aux" 1754801765 7918 82d811be13ce076d7a2e5815b6dd974a "pdflatex"
-  "main.out" 1754801765 4336 c126676d4df536c3de4fa15763e93096 "pdflatex"
+  "gambar/tenureboxplot.png" 1754803861 17607 6f474967c6c23247d815554ce036b220 ""
+  "main.aux" 1754807548 9324 bc941d72688ebc781904fd43da9f61ae "pdflatex"
+  "main.out" 1754807548 5324 928ff6a177ab276603492b280d38e54c "pdflatex"
   "main.tex" 1754796360 1117 884004957e0e92bb38304f190ac640bf ""
   (generated)
   "main.aux"

@@ -181,7 +181,7 @@ Adapun pembagiannya sebagai berikut :
     'PaymentMethod', 'Churn']
 \end{lstlisting}
 
-\subsection{Analisis Fitur Kategorikal}
+\subsubsection{Analisis Fitur Kategorikal}
 Analisis fitur kategorikal dilakukan untuk memahami distribusi dari setiap fitur kategorikal dalam dataset. Kita akan menggunakan visualisasi seperti bar plot untuk melihat jumlah pelanggan berdasarkan setiap kategori. Namun agar barplot tidak terlalu banyak kita akan uji dengan chi square terlebih dahulu untuk melihat fitur mana saja yang signifikan terhadap target variabel Churn. Dengan begitu kita bisa plot barplot hanya untuk fitur yang signifikan saja.
 
 
@@ -335,7 +335,7 @@ Selain insight dan implikasi bisnis diatas, kita juga dapat ditur yang relevan u
 
 Dari Gambar \ref{fig:cramervheatmap} dapat dilihat bahwa terdapat beberapa fitur yang memiliki korelasi tinggi ditandai dengan warna yang lebih merah. Dan fitur fitur yang memiliki korelasi rendah ditandai dengan warna yang lebih biru. Adapun dengan temuan ini kita bisa melakukan feature selection untuk memilih fitur-fitur yang relevan dan tidak redundant. Kita akan memilih fitur-fitur yang memiliki korelasi tinggi dengan target variabel Churn dan menghindari fitur-fitur yang memiliki korelasi tinggi satu sama lain.
 
-\subsection{Analisis Fitur Numerik}
+\subsubsection{Analisis Fitur Numerik}
 Analisis fitur numerik dilakukan untuk memahami distribusi dari setiap fitur numerik dalam dataset. Kita akan menggunakan visualisasi seperti histogram, lalu melihat heatmap korelasi untuk melihat hubungan antar fitur numerik. Kita juga akan melakukan analisis statistik untuk melihat apakah terdapat outliers pada fitur-fitur numerik.
 
 Pertama-tama, kita akan melihat ukuran pemusatan dari setiap fitur numerik. Kita akan menggunakan .describe() untuk melihat ukuran pemusatan seperti mean, median, dan standar deviasi dari setiap fitur numerik. Dengan begitu kita bisa mendapatkan gambaran umum tentang distribusi dari setiap fitur numerik.
@@ -391,11 +391,14 @@ Kita juga akan melakukan analisis outliers pada fitur-fitur numerik. Kita akan m
 
 Dari Gambar \ref{fig:boxplot} merupakan boxplot untuk fitur "MonthlyCharges" dan "TotalCharges" berdasarkan kategori "Churn". Dapat dilihat bahwa terdapat beberapa outliers pada kedua fitur numerik tersebut. Outliers ini dapat mempengaruhi hasil analisis dan model yang akan dibangun, sehingga perlu ditangani dengan baik. Kita bisa menghapus outliers tersebut atau menggunakan metode robust scaling untuk mengurangi pengaruh outliers pada model.
 
+Selain itu kita juga mendapatkan bahwa pelanggan dengan biaya bulanan yang lebih tinggi cendrung untuk churn. Hal ini terlihat dari boxplot yang menunjukkan bahwa pelanggan yang churn memiliki biaya bulanan yang lebih tinggi dibandingkan dengan pelanggan yang tidak churn. Sedangkan untuk fitur "TotalCharges", kita tidak bisa menarik kesimpulan yang sama karena terdapat outliers yang cukup signifikan pada kedua kategori dan pada pelanggan yang churn berdasarkan totalcharges cukup datanya cukup tersebar sehingga tidak bisa ditarik kesimpulan yang signifikan.
+
 Setelah melakukan analisis fitur numerik, kita mendapatkan beberapa insight yang dapat digunakan untuk meningkatkan retensi pelanggan. Adapun insight yang didapatkan dari analisis fitur numerik ini adalah sebagai berikut:
 \begin{itemize}
     \item Pelanggan dengan lama berlangganan yang lebih lama cenderung memiliki total biaya yang lebih tinggi.
     \item Pelanggan dengan biaya bulanan yang lebih tinggi cenderung memiliki total biaya yang lebih tinggi.
     \item Terdapat segmen highend pada fitur TotalCharges menandakan adanya pelanggan yang memiliki total biaya yang sangat tinggi.
+    \item Pelanggan dengan biaya bulanan yang lebih tinggi cenderung untuk churn.
 \end{itemize}
 
 Sehingga kita bisa membuat keputusan bisnis yang lebih baik berdasarkan hasil analisis ini. Adapun implikasi bisnisnya dari insight yang dihasilkan adalah sebagai berikut:
@@ -406,3 +409,76 @@ Sehingga kita bisa membuat keputusan bisnis yang lebih baik berdasarkan hasil an
     \item Perusahaan dapat mempertimbangkan untuk melakukan segmentasi pelanggan berdasarkan total biaya yang dibayarkan untuk meningkatkan retensi pelanggan.
 \end{itemize}
 
+Selain kita juga mendapatkan bahwa fitur tenure yang merupakan fitur numerik yang memiliki informasi tentang lama berlangganan pelanggan, dapat dilakukan binning untuk mengelompokkan pelanggan berdasarkan lama berlangganan mereka. Kita akan membuat 3 kelompok yaitu "0-12 bulan", "13-24 bulan", dan "25+bulan". Maka dengan ini kita bisa melakukan fitur engineering untuk membuat fitur baru yaitu "tenure\_group" yang merupakan hasil binning dari fitur "tenure". Kita akan menggunakan pd.cut() untuk melakukan binning pada fitur "tenure". Dengan begitu kita bisa melihat distribusi pelanggan berdasarkan lama berlangganan mereka.
+
+\subsection{Feature Engineering}
+Setelah melakukan analisis terhadap fitur-fitur yang ada dalam dataset, kita akan melakukan feature engineering untuk membuat fitur-fitur baru yang dapat meningkatkan performa model klasifikasi yang akan dibangun. Feature engineering adalah proses menciptakan fitur-fitur baru dari fitur-fitur yang sudah ada untuk meningkatkan kemampuan model dalam memprediksi target variabel.
+
+\subsubsection{Binning Fitur Tenure}
+Pada analisa sebelumnya kita mendapatkan bahwa fitur tenure yang merupakan fitur numerik yang memiliki informasi tentang lama berlangganan pelanggan, dapat dilakukan binning untuk mengelompokkan pelanggan berdasarkan lama berlangganan mereka. Kita akan membuat 3 kelompok yaitu "0-12 bulan", "13-24 bulan", dan "25+bulan". Maka dengan ini kita bisa melakukan fitur engineering untuk membuat fitur baru yaitu "tenure\_group" yang merupakan hasil binning dari fitur "tenure". Kita akan menggunakan pd.cut() untuk melakukan binning pada fitur "tenure". Dengan begitu kita bisa melihat distribusi pelanggan berdasarkan lama berlangganan mereka.
+
+\begin{lstlisting}[language=Python, caption=Feature Engineering Binning Fitur Tenure]
+# Output setelah binning
+tenure_group
+
+oneyear    
+threeyear
+oneyear  
+threeyear
+oneyear
+\end{lstlisting}
+
+Setelah binning berhasil, selanjutnya saya ingin menguji chi-square untuk melihat apakah fitur tenure\_group ini signifikan terhadap target variabel Churn. Dengan begitu kita bisa mengetahui apakah fitur ini relevan untuk digunakan dalam model klasifikasi.
+
+\begin{lstlisting}[language=Python, caption=Uji Chi-Square Fitur Tenure Group]
+# Output uji chi-square
+Chi2: 807.5820584283829, p-value: 4.32298939601873e-176, dof: 2
+Ada hubungan signifikan antara tenure dan Churn
+\end{lstlisting}
+
+Dari hasil uji chi-square di atas, kita mendapatkan nilai Chi2 sebesar 807.58 dengan p-value yang sangat kecil yaitu 4.32e-176. Hal ini menunjukkan bahwa terdapat hubungan yang signifikan antara fitur tenure\_group dan target variabel Churn. Sehingga fitur tenure\_group ini relevan untuk digunakan dalam model klasifikasi.
+
+Selanjutnya saya juga ingin melihat boxplotnya untuk menggali lebih dalam tentang fitur tenure\_group ini. Dengan menggunakan .boxplot() dari Seaborn, kita bisa membuat visualisasi yang jelas dan mudah dipahami. Gambar \ref{fig:tenure_group_boxplot} menunjukkan hasil dari boxplot fitur tenure\_group berdasarkan kategori Churn.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{gambar/tenureboxplot.png}
+    \caption{Boxplot Fitur Tenure Group Berdasarkan Kategori Churn}
+    \label{fig:tenure_group_boxplot}
+\end{figure}
+
+Dari Gambar \ref{fig:tenure_group_boxplot} dapat dilihat bahwa pelanggan yang memiliki lama berlangganan 0-12 bulan cenderung memiliki jumlah churn yang lebih tinggi dibandingkan dengan pelanggan yang memiliki lama berlangganan 13-24 bulan dan 25+bulan. Hal ini menunjukkan bahwa pelanggan yang baru berlangganan cenderung lebih sering berhenti berlangganan dibandingkan dengan pelanggan yang sudah lama berlangganan.
+
+\subsubsection{Binning fitur dengan Uji Chi-Square lemah}
+Selain fitur tenure\_group, kita juga akan melakukan binning pada fitur Dependents, partner, dan SeniorCitizen. Saya memutuskan untuk membuat fitur baru bernama is\_married dengan kondisi jika Dependents atau Partner atau SeniorCitizen bernilai "Yes" maka is\_married bernilai "Yes" dan jika tidak maka bernilai "No". Dengan begitu kita bisa melihat distribusi pelanggan berdasarkan status pernikahan mereka.
+
+\begin{lstlisting}[language=Python, caption=Feature Engineering Binning]
+# Output setelah binning
+
+    is_married
+1    4313
+0    2719
+Name: count, dtype: int64
+\end{lstlisting}
+
+Dengan begitu kita telah berhasil membuat fitur baru bernama is\_married yang merupakan hasil binning dari fitur Dependents, Partner, dan SeniorCitizen.
+
+\subsection{Feature Selection}
+Setelah melakukan feature engineering, kita akan melakukan feature selection untuk memilih fitur-fitur yang relevan dan tidak redundant. Feature selection adalah proses memilih fitur-fitur yang paling penting untuk digunakan dalam model klasifikasi. Kita akan menggunakan metode chi-square untuk memilih fitur-fitur yang relevan dengan target variabel Churn.
+
+Pertama tama customerID akan kita buang karena fitur ini tidak relevan untuk digunakan dalam model klasifikasi. Fitur ini hanya berfungsi sebagai identifikasi unik untuk setiap pelanggan dan tidak memberikan informasi yang berguna untuk memprediksi target variabel Churn.
+
+\subsubsection{Berdasarkan Uji Chi-Square}
+Kita akan melakukan uji chi-square untuk setiap fitur kategorikal yang ada dalam dataset. Dan telah melakukan feature engineering berdasarkan uji chi-square yang telah dilakukan sebelumnya. Dengan begitu otomatis fitur fitur ini akan dibuang :
+
+\begin{itemize}
+    \item Dependents
+    \item Partner
+    \item SeniorCitizen
+    \item tenure
+    \item Gender
+    \item PhoneService
+    \item MultipleLines
+\end{itemize}
+
+Dengan membuang fitur yang tidak relevan, kita akan mendapatkan fitur-fitur yang lebih fokus dan dapat meningkatkan performa model klasifikasi. 
