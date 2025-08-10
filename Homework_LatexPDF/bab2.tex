@@ -81,6 +81,20 @@ di mana:
 
 Confusion matrix memberikan informasi tentang jumlah prediksi yang benar dan salah untuk setiap kelas. Dari confusion matrix, kita dapat menghitung berbagai metrik evaluasi model seperti akurasi, presisi, recall, dan F1-score. Metrik-metrik ini membantu dalam menilai kinerja model klasifikasi secara keseluruhan.
 
+\subsection{Akurasi}
+% Buat tinjauan pustaka untuk Akurasi gunakan refrensi yang relevan
+Akurasi adalah metrik evaluasi yang mengukur seberapa baik model klasifikasi dalam memprediksi kelas yang benar. Akurasi didefinisikan sebagai rasio antara jumlah prediksi benar (true positives + true negatives) dengan jumlah total prediksi. Rumusnya adalah:
+\begin{equation}
+    \text{Akurasi} = \frac{\text{True Positives} + \text{True Negatives}}{\text{Total Prediksi}}
+\end{equation}
+di mana:
+\begin{itemize}
+    \item True Positives (TP): Jumlah kasus positif yang benar-benar terdeteksi oleh model.
+    \item True Negatives (TN): Jumlah kasus negatif yang benar-benar terdeteksi oleh model.
+    \item Total Prediksi: Jumlah total kasus yang diprediksi oleh model, yaitu jumlah dari true positives, true negatives, false positives, dan false negatives.
+\end{itemize}
+Akurasi memberikan gambaran umum tentang kinerja model, tetapi dapat menjadi menyesatkan jika dataset tidak seimbang (misalnya, jika satu kelas jauh lebih banyak daripada kelas lainnya). Oleh karena itu, penting untuk mempertimbangkan metrik lain seperti recall dan precision untuk mendapatkan gambaran yang lebih lengkap tentang kinerja model.
+
 \subsection{Recall}
 % Buat tinjauan pustaka untuk Recall gunakan refrensi yang relevan
 Recall, juga dikenal sebagai sensitivitas atau true positive rate, adalah metrik evaluasi yang mengukur kemampuan model dalam mengidentifikasi kelas positif. Recall didefinisikan sebagai rasio antara jumlah prediksi benar positif (true positives) dengan jumlah total kasus positif aktual (true positives + false negatives). Rumusnya adalah:
@@ -96,6 +110,33 @@ di mana:
 \end{itemize}
 
 Recall sangat penting dalam konteks di mana kita ingin meminimalkan jumlah kasus positif yang terlewatkan, seperti dalam deteksi penyakit atau pencegahan churn pelanggan. Metrik ini memberikan gambaran tentang seberapa baik model dapat menangkap semua kasus positif yang sebenarnya ada.
+
+\subsection{Precision}
+% Buat tinjauan pustaka untuk Precision gunakan refrensi yang relevan
+Precision adalah metrik evaluasi yang mengukur akurasi dari prediksi positif yang dibuat oleh model. Precision didefinisikan sebagai rasio antara jumlah prediksi benar positif (true positives) dengan jumlah total prediksi positif (true positives + false positives). Rumusnya adalah:
+\begin{equation}
+    \text{Precision} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Positives}}
+\end{equation}
+di mana:
+\begin{itemize}
+    \item True Positives (TP): Jumlah kasus positif yang benar-benar terdeteksi oleh model.
+    \item False Positives (FP): Jumlah kasus negatif yang salah diklasifikasikan sebagai positif oleh model.
+\end{itemize}
+Precision sangat penting dalam konteks di mana kita ingin meminimalkan jumlah prediksi positif yang salah, seperti dalam deteksi penipuan atau spam. Metrik ini memberikan gambaran tentang seberapa akurat model dalam mengidentifikasi kasus positif yang sebenarnya ada.
+
+\subsection{F1-Score}
+% Buat tinjauan pustaka untuk F1-Score gunakan refrensi yang relevan
+F1-Score adalah metrik evaluasi yang menggabungkan precision dan recall menjadi satu nilai tunggal. F1-Score dihitung sebagai harmonik rata-rata dari precision dan recall, sehingga memberikan keseimbangan antara kedua metrik tersebut. F1-Score sangat berguna ketika kita ingin mempertimbangkan trade-off antara precision dan recall, terutama dalam situasi di mana dataset tidak seimbang.
+\begin{equation}
+    \text{F1-Score} = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}}
+\end{equation}
+di mana:
+\begin{itemize}
+    \item Precision adalah rasio antara true positives dan total prediksi positif.
+    \item Recall adalah rasio antara true positives dan total kasus positif aktual.
+    \item F1-Score memberikan nilai antara 0 dan 1, di mana nilai 1 menunjukkan keseimbangan sempurna antara precision dan recall, sedangkan nilai 0 menunjukkan kinerja yang buruk.
+\end{itemize}
+F1-Score sangat berguna dalam konteks di mana kita ingin meminimalkan baik false positives maupun false negatives, seperti dalam deteksi penyakit atau klasifikasi teks. Metrik ini memberikan gambaran yang lebih komprehensif tentang kinerja model dibandingkan dengan precision atau recall secara terpisah.
 
 \subsection{ROC-AUC}
 % Buat tinjauan pustaka untuk ROC-AUC gunakan refrensi yang relevan
@@ -113,4 +154,57 @@ di mana:
     \item FPR (False Positive Rate) adalah rasio antara jumlah prediksi salah positif dengan jumlah total kasus negatif aktual.
     \item Integral ini menghitung area di bawah kurva ROC, yang memberikan nilai AUC.
     \item Nilai AUC yang lebih tinggi menunjukkan bahwa model memiliki kemampuan yang lebih baik dalam membedakan antara kelas positif dan negatif.
+\end{itemize}
+
+\subsection{Chi-Squared Test}
+% Buat tinjauan pustaka untuk Chi-Squared Test gunakan refrensi yang relevan
+Chi-Squared Test adalah metode statistik yang digunakan untuk menguji independensi antara dua variabel kategorikal. Uji ini membandingkan frekuensi yang diamati dalam kategori tertentu dengan frekuensi yang diharapkan jika kedua variabel tersebut independen. Chi-Squared Test sering digunakan dalam analisis data untuk menentukan apakah ada hubungan signifikan antara dua variabel.
+\begin{equation}
+    \chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}
+\end{equation}
+di mana:
+\begin{itemize}
+    \item \( \chi^2 \) adalah nilai statistik Chi-Squared.
+    \item \( O_i \) adalah frekuensi yang diamati untuk kategori ke-i.
+    \item \( E_i \) adalah frekuensi yang diharapkan untuk kategori ke-i jika kedua variabel independen.
+    \item Penjumlahan dilakukan untuk semua kategori yang ada.
+    \item Nilai \( \chi^2 \) yang lebih tinggi menunjukkan bahwa ada perbedaan signifikan antara frekuensi yang diamati dan yang diharapkan, yang mengindikasikan bahwa kedua variabel mungkin tidak independen.
+\end{itemize}
+
+\subsection{Cramer's V}
+% Buat tinjauan pustaka untuk Cramer's V gunakan refrensi yang relevan
+Cramer's V adalah ukuran asosiasi antara dua variabel kategorikal yang digunakan untuk mengukur kekuatan hubungan antara variabel tersebut. Nilai Cramer's V berkisar antara 0 hingga 1, di mana 0 menunjukkan tidak ada asosiasi dan 1 menunjukkan asosiasi sempurna. Cramer's V dihitung berdasarkan nilai Chi-Squared dan ukuran sampel.
+
+Asosiasi adalah hubungan antara dua variabel yang dapat diukur dengan berbagai cara. Cramer's V adalah salah satu metode yang digunakan untuk mengukur kekuatan asosiasi antara dua variabel kategorikal. Nilai Cramer's V berkisar antara 0 hingga 1, di mana 0 menunjukkan tidak ada asosiasi dan 1 menunjukkan asosiasi sempurna.
+\begin{equation}
+    V = \sqrt{\frac{\chi^2}{n \cdot \min(k-1, r-1)}}
+\end{equation}
+di mana:
+\begin{itemize}
+    \item \( V \) adalah nilai Cramer's V.
+    \item \( \chi^2 \) adalah nilai statistik Chi-Squared yang dihitung dari tabel kontingensi.
+    \item \( n \) adalah ukuran sampel (jumlah total observasi).
+    \item \( k \) adalah jumlah kategori pada variabel pertama.
+    \item \( r \) adalah jumlah kategori pada variabel kedua.
+    \item Nilai Cramer's V yang lebih tinggi menunjukkan asosiasi yang lebih kuat antara kedua variabel kategorikal.
+    \item Jika \( V = 0 \), berarti tidak ada asosiasi antara kedua variabel, sedangkan jika \( V = 1 \), berarti ada asosiasi sempurna.
+\end{itemize}
+
+\subsection{SelectKBest}
+% Buat tinjauan pustaka untuk SelectKBest gunakan refrensi yang relevan
+SelectKBest adalah metode pemilihan fitur yang digunakan untuk memilih sejumlah fitur terbaik dari dataset berdasarkan skor statistik tertentu. Metode ini membantu dalam mengurangi dimensi data dengan memilih fitur-fitur yang paling relevan untuk model, sehingga meningkatkan kinerja dan interpretabilitas model. SelectKBest dapat digunakan dengan berbagai fungsi skor, seperti ANOVA F-value, chi-squared, atau mutual information.
+
+Adapun penggunaan SelectKBest harus menggunakan data yang sudah dibagi menjadi data latih dan data uji. Hal ini penting untuk memastikan bahwa fitur yang dipilih tidak bias terhadap data uji, sehingga model yang dibangun dapat generalisasi dengan baik pada data baru.
+
+\begin{equation}
+    \text{Score}(X, y) = \frac{1}{n} \sum_{i=1}^{n} f(X_i, y)
+\end{equation}
+di mana:
+\begin{itemize}
+    \item \( \text{Score}(X, y) \) adalah skor fitur yang dihitung berdasarkan fungsi skor \( f \).
+    \item \( n \) adalah jumlah fitur yang ada.
+    \item \( X_i \) adalah nilai dari fitur ke-i.
+    \item \( y \) adalah label target (kelas) yang ingin diprediksi.
+    \item Fungsi skor \( f \) dapat berupa ANOVA F-value, chi-squared, atau mutual information, tergantung pada jenis data dan tujuan analisis.
+    \item Nilai skor yang lebih tinggi menunjukkan bahwa fitur tersebut lebih relevan untuk memprediksi label target.
 \end{itemize}
