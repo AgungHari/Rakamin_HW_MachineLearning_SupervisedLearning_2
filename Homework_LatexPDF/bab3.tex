@@ -272,3 +272,137 @@ Untuk pertanyaan kedua yaitu apakah pelanggan yang memilih langganan dengan pake
 Dari Gambar \ref{fig:techsupport_churn} dapat dilihat bahwa pelanggan yang memilih untuk menggunakan layanan TechSupport memiliki jumlah churn yang lebih rendah dibandingkan dengan pelanggan yang tidak menggunakan layanan TechSupport. Hal ini menunjukkan bahwa layanan TechSupport dapat membantu mengurangi tingkat churn pelanggan.
 
 Untuk pertanyaan ketiga yaitu apakah pelanggan yang memilih layanan keamanan online cenderung churn, kita akan membuat bar plot untuk melihat jumlah pelanggan berdasarkan pilihan OnlineSecurity. Kita akan membandingkan jumlah pelanggan yang churn dan tidak churn berdasarkan pilihan OnlineSecurity. Gambar \ref{fig:onlinesecurity_churn} menunjukkan hasil dari visualisasi tersebut.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{gambar/onlinesecurity.png}
+    \caption{Jumlah Pelanggan Churn Berdasarkan Pilihan OnlineSecurity}
+    \label{fig:onlinesecurity_churn}
+\end{figure}
+
+Dari Gambar \ref{fig:onlinesecurity_churn} dapat dilihat bahwa pelanggan yang memilih untuk menggunakan layanan OnlineSecurity memiliki jumlah churn yang lebih rendah dibandingkan dengan pelanggan yang tidak menggunakan layanan OnlineSecurity. Hal ini menunjukkan bahwa layanan OnlineSecurity dapat membantu mengurangi tingkat churn pelanggan.
+
+Untuk pertanyaan keempat yaitu apakah pelanggan yang memilih layanan internet tertentu cenderung churn, kita akan membuat bar plot untuk melihat jumlah pelanggan berda sarkan jenis layanan internet. Kita akan membandingkan jumlah pelanggan yang churn dan tidak churn berdasarkan jenis layanan internet. Gambar \ref{fig:internetservice_churn} menunjukkan hasil dari visualisasi tersebut.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{gambar/internetservice.png}
+    \caption{Jumlah Pelanggan Churn Berdasarkan Jenis Layanan Internet}
+    \label{fig:internetservice_churn}
+\end{figure}
+
+Dari Gambar \ref{fig:internetservice_churn} dapat dilihat bahwa pelanggan yang menggunakan layanan internet "Fiber optic" memiliki jumlah churn yang paling tinggi dibandingkan dengan pelanggan yang menggunakan layanan "DSL" atau "No". Hal ini menunjukkan bahwa pelanggan yang menggunakan layanan internet Fiber optic cenderung lebih sering berhenti berlangganan dibandingkan dengan pelanggan yang menggunakan layanan DSL atau tidak menggunakan layanan internet.
+
+Untuk pertanyaan terakhir yaitu apakah pelanggan yang memilih metode pembayaran tertentu cenderung churn, kita akan membuat bar plot untuk melihat jumlah pelanggan berdasarkan metode pembayaran. Kita akan membandingkan jumlah pelanggan yang churn dan tidak churn berdasarkan metode pembayaran. Gambar \ref{fig:paymentmethod_churn} menunjukkan hasil dari visualisasi tersebut.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{gambar/paymentmethod.png}
+    \caption{Jumlah Pelanggan Churn Berdasarkan Metode Pembayaran}
+    \label{fig:paymentmethod_churn}
+\end{figure}
+
+Dari Gambar \ref{fig:paymentmethod_churn} dapat dilihat bahwa pelanggan yang menggunakan metode pembayaran "Electronic check" memiliki jumlah churn yang paling tinggi dibandingkan dengan metode pembayaran lainnya. Hal ini menunjukkan bahwa pelanggan yang menggunakan metode pembayaran Electronic check cenderung lebih sering berhenti berlangganan dibandingkan dengan pelanggan yang menggunakan metode pembayaran lainnya.
+
+Dari hasil analisa diatas kita tidak hanya mendapatkan fitur yang relevan dalam membangun model klasifikasi, tetapi juga mendapatkan insight bisnis yang dapat digunakan untuk meningkatkan retensi pelanggan. Adapun insight yang didapatkan dari analisis fitur kategorikal ini adalah sebagai berikut:
+
+\begin{itemize}
+    \item Pelanggan dengan kontrak "Month-to-month" cenderung lebih sering berhenti berlangganan dibandingkan dengan pelanggan yang bekerja dengan kontrak tahunan atau dua tahunan.
+    \item Layanan TechSupport dapat membantu mengurangi tingkat churn pelanggan.
+    \item Layanan OnlineSecurity dapat membantu mengurangi tingkat churn pelanggan.
+    \item Pelanggan yang menggunakan layanan internet "Fiber optic" cenderung lebih sering berhenti berlangganan dibandingkan dengan pelanggan yang menggunakan layanan DSL atau tidak menggunakan layanan internet.
+    \item Pelanggan yang menggunakan metode pembayaran "Electronic check" cenderung lebih sering berhenti berlangganan dibandingkan dengan pelanggan yang menggunakan metode pembayaran lainnya.
+\end{itemize}
+
+Sehingga kita bisa membuat keputusan bisnis yang lebih baik berdasarkan hasil analisis ini. Adapun implikasi bisnisnya dari insight yang dihasilkan adalah sebagai berikut:
+
+\begin{itemize}
+    \item Perusahaan dapat meningkatkan layanan TechSupport untuk membantu mengurangi tingkat churn pelanggan.
+    \item Perusahaan dapat meningkatkan layanan OnlineSecurity untuk membantu mengurangi tingkat churn pelanggan.
+    \item Perusahaan dapat mempertimbangkan untuk meningkatkan kualitas layanan internet Fiber optic untuk mengurangi tingkat churn pelanggan. Ataupun mengurangi biaya langganan untuk pelanggan yang menggunakan layanan internet Fiber optic.
+    \item Perusahaan dapat mempertimbangkan untuk menawarkan metode pembayaran yang lebih fleksibel kepada pelanggan yang menggunakan metode pembayaran Electronic check.
+    \item Perusahaan dapat melakukan penawaran khusus atau promosi untuk pelanggan yang masih bekerja dengan kontrak "Month-to-month" untuk meningkatkan retensi pelanggan.
+\end{itemize}
+
+Selain insight dan implikasi bisnis diatas, kita juga dapat ditur yang relevan untuk digunakan pada feature selection pada model klasifikasi kita nantinya. Namun sebelumnya kita juga perlu tahu korelasi antar fitur kategorikal ini agar kita mengetahui fitur fitur apa saja yang redundant, Adapun kita akan menggunakan Cramer V yang sudah kita dapatkan tadi untuk menghitung korelasi antar fitur kategorikal. Cramer V adalah ukuran asosiasi antara dua variabel kategorikal yang berkisar antara 0 (tidak ada asosiasi) hingga 1 (asosiasi sempurna). Kita akan membuat matriks korelasi menggunakan Cramer V untuk melihat hubungan antar fitur kategorikal. Gambar \ref{fig:cramervheatmap} menunjukkan hasil dari heatmap korelasi Cramer V antar fitur Kategorikal.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{gambar/cramerheatmap.png}
+    \caption{Heatmap Korelasi Cramer V Antar Fitur Kategorikal}
+    \label{fig:cramervheatmap}
+\end{figure}
+
+Dari Gambar \ref{fig:cramervheatmap} dapat dilihat bahwa terdapat beberapa fitur yang memiliki korelasi tinggi ditandai dengan warna yang lebih merah. Dan fitur fitur yang memiliki korelasi rendah ditandai dengan warna yang lebih biru. Adapun dengan temuan ini kita bisa melakukan feature selection untuk memilih fitur-fitur yang relevan dan tidak redundant. Kita akan memilih fitur-fitur yang memiliki korelasi tinggi dengan target variabel Churn dan menghindari fitur-fitur yang memiliki korelasi tinggi satu sama lain.
+
+\subsection{Analisis Fitur Numerik}
+Analisis fitur numerik dilakukan untuk memahami distribusi dari setiap fitur numerik dalam dataset. Kita akan menggunakan visualisasi seperti histogram, lalu melihat heatmap korelasi untuk melihat hubungan antar fitur numerik. Kita juga akan melakukan analisis statistik untuk melihat apakah terdapat outliers pada fitur-fitur numerik.
+
+Pertama-tama, kita akan melihat ukuran pemusatan dari setiap fitur numerik. Kita akan menggunakan .describe() untuk melihat ukuran pemusatan seperti mean, median, dan standar deviasi dari setiap fitur numerik. Dengan begitu kita bisa mendapatkan gambaran umum tentang distribusi dari setiap fitur numerik.
+
+\begin{lstlisting}[language=Python, caption=Ukuran Pemusatan Fitur Numerik]
+# Ukuran pemusatan fitur numerik
+        tenure  MonthlyCharges  TotalCharges
+count  7032.000000     7032.000000   7032.000000
+mean     32.421786       64.798208   2283.300441
+std      24.545260       30.085974   2266.771362
+min       1.000000       18.250000     18.800000
+25%       9.000000       35.587500    401.450000
+50%      29.000000       70.350000   1397.475000
+75%      55.000000       89.862500   3794.737500
+max      72.000000      118.750000   8684.800000
+\end{lstlisting}
+
+Dari hasil ukuran pemusatan di atas, kita bisa melihat bahwa fitur "tenure" memiliki nilai rata-rata sekitar 32 bulan, dengan nilai minimum 1 bulan dan maksimum 72 bulan. Fitur "MonthlyCharges" memiliki nilai rata-rata sekitar 64.8, dengan nilai minimum 18.25 dan maksimum 118.75. Sedangkan fitur "TotalCharges" memiliki nilai rata-rata sekitar 2283.3, dengan nilai minimum 18.8 dan maksimum 8684.8.
+
+Setelah di analisa fitur tenure nampaknya cocok untuk dilakukan binning, karena fitur ini merupakan fitur numerik yang memiliki informasi tentang lama berlangganan pelanggan. Kita akan melakukan binning pada fitur "tenure" untuk mengelompokkan pelanggan berdasarkan lama berlangganan mereka. Kita akan membuat 3 kelompok yaitu "0-12 bulan", "13-24 bulan", dan "25+bulan". Dengan begitu kita bisa melihat distribusi pelanggan berdasarkan lama berlangganan mereka.
+
+Karena fitur tenure sudah kita putuskan untuk binning, maka selanjutnya kita akan cek tipe distribusi untuk fitur MonthlyCharges dan TotalCharges. Kita akan menggunakan histogram untuk melihat distribusi dari setiap fitur numerik. Dengan menggunakan .hist() kita bisa membuat histogram yang jelas dan mudah dipahami. Gambar \ref{fig:histogram} menunjukkan hasil dari histogram distribusi kedua fitur numerik.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{gambar/histogram.png}
+    \caption{Histogram Distribusi Fitur Numerik}
+    \label{fig:histogram}
+\end{figure}
+
+Dari Gambar \ref{fig:histogram} dapat dilihat bahwa fitur "MonthlyCharges" memiliki distribusi yang cenderung normal, dengan puncak di sekitar nilai 70. Sedangkan fitur "TotalCharges" memiliki distribusi yang cenderung skewed ke kanan, dengan puncak di sekitar nilai 1000. Hal ini menunjukkan bahwa sebagian besar pelanggan memiliki total biaya yang relatif rendah, namun terdapat beberapa pelanggan yang memiliki total biaya yang sangat tinggi.
+
+Selanjutnya kita akan melakukan analisis korelasi antar fitur numerik. Kita akan menggunakan heatmap untuk melihat hubungan antar fitur numerik. Dengan menggunakan .heatmap() dari Seaborn, kita bisa membuat visualisasi yang jelas dan mudah dipahami. Gambar \ref{fig:correlation_heatmap} menunjukkan hasil dari heatmap korelasi antar fitur numerik.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{gambar/heatmapnum.png}
+    \caption{Heatmap Korelasi Antar Fitur Numerik}
+    \label{fig:correlation_heatmap}
+\end{figure}
+
+%jangan masukan fitur tenure pada interpretasi heatmap ini karena sudah binning
+Dari Gambar \ref{fig:correlation_heatmap} dapat dilihat bahwa terdapat korelasi yang cukup tinggi antara fitur "MonthlyCharges" dan "TotalCharges", dengan nilai korelasi sekitar 0.65. Hal ini menunjukkan bahwa semakin tinggi biaya bulanan yang dibayarkan oleh pelanggan, semakin tinggi pula total biaya yang dibayarkan selama berlangganan. Sedangkan fitur "tenure" memiliki korelasi yang rendah dengan kedua fitur numerik lainnya, yaitu "MonthlyCharges" dan "TotalCharges".
+
+Kita juga akan melakukan analisis outliers pada fitur-fitur numerik. Kita akan menggunakan boxplot untuk melihat apakah terdapat outliers pada setiap fitur numerik. Dengan menggunakan .boxplot() dari Seaborn, kita bisa membuat visualisasi yang jelas dan mudah dipahami. Gambar \ref{fig:boxplot} menunjukkan hasil dari boxplot outliers pada kedua fitur numerik.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{gambar/boxplot.png}
+    \caption{Boxplot Outliers Fitur Numerik}
+    \label{fig:boxplot}
+\end{figure}
+
+Dari Gambar \ref{fig:boxplot} merupakan boxplot untuk fitur "MonthlyCharges" dan "TotalCharges" berdasarkan kategori "Churn". Dapat dilihat bahwa terdapat beberapa outliers pada kedua fitur numerik tersebut. Outliers ini dapat mempengaruhi hasil analisis dan model yang akan dibangun, sehingga perlu ditangani dengan baik. Kita bisa menghapus outliers tersebut atau menggunakan metode robust scaling untuk mengurangi pengaruh outliers pada model.
+
+Setelah melakukan analisis fitur numerik, kita mendapatkan beberapa insight yang dapat digunakan untuk meningkatkan retensi pelanggan. Adapun insight yang didapatkan dari analisis fitur numerik ini adalah sebagai berikut:
+\begin{itemize}
+    \item Pelanggan dengan lama berlangganan yang lebih lama cenderung memiliki total biaya yang lebih tinggi.
+    \item Pelanggan dengan biaya bulanan yang lebih tinggi cenderung memiliki total biaya yang lebih tinggi.
+    \item Terdapat segmen highend pada fitur TotalCharges menandakan adanya pelanggan yang memiliki total biaya yang sangat tinggi.
+\end{itemize}
+
+Sehingga kita bisa membuat keputusan bisnis yang lebih baik berdasarkan hasil analisis ini. Adapun implikasi bisnisnya dari insight yang dihasilkan adalah sebagai berikut:
+
+\begin{itemize}
+    \item Perusahaan dapat mempertimbangkan untuk memberikan penawaran khusus atau promosi kepada pelanggan dengan lama berlangganan yang lebih lama untuk meningkatkan retensi pelanggan.
+    \item Perusahaan dapat mempertimbangkan untuk memberikan penawaran khusus atau promosi kepada pelanggan dengan biaya bulanan yang lebih tinggi untuk meningkatkan retensi pelanggan.
+    \item Perusahaan dapat mempertimbangkan untuk melakukan segmentasi pelanggan berdasarkan total biaya yang dibayarkan untuk meningkatkan retensi pelanggan.
+\end{itemize}
+
