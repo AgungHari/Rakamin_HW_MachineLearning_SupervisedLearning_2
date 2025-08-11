@@ -213,7 +213,231 @@ Setelah dilakukan pengujian model Decision Tree, diperoleh hasil confusion matri
 
 \subsubsection{Hasil Decision Tree tanpa hyperparameter tuning}
 % tiru penjelasan logistic regression di atas namun sesuaikan dengan penjelasan subbab ini yaitu decision tree
-Berikut adalah hasil confusion matrix dari model Decision Tree yang telah diuji pada data uji, Gambar \ref{fig:decision_tree} menunjukkan confusion matrix yang diperoleh dari model Decision Tree tanpa melakukan hyperparameter tuning. Sehingga baseline model Decision Tree ini akan menjadi acuan untuk perbandingan dengan model-model lainnya yang akan diuji pada tahap selanjutnya. Namun kita tetap perlu menambahkan beberapa setting manual karena pada bab sebelumnya kita menemukan imbalance data pada dataset yang digunakan. Oleh karena itu, kita perlu mengatur beberapa parameter pada model Decision Tree untuk mengatasi masalah tersebut. Berikut adalah parameter yang digunakan pada model Decision Tree:
+Berikut adalah hasil confusion matrix dari model Decision Tree yang telah diuji pada data uji, Gambar \ref{fig:decision_tree} menunjukkan confusion matrix yang diperoleh dari model Decision Tree tanpa melakukan hyperparameter tuning. Sehingga baseline model Decision Tree ini akan menjadi acuan untuk perbandingan dengan model-model lainnya yang akan diuji pada tahap selanjutnya. Namun kita tetap perlu menambahkan beberapa setting manual karena pada bab sebelumnya kita menemukan imbalance data pada dataset yang digunakan. Oleh karena itu, kita perlu mengatur beberapa parameter pada model Decision Tree untuk mengatasi masalah tersebut.  Parameter yang digunakan adalah sebagai berikut:
+
+\begin{itemize}
+    \item \texttt{criterion="gini"}: Fungsi pengukuran impurity yang digunakan adalah Gini Impurity (default). Alternatif lainnya adalah \texttt{"entropy"} yang menggunakan Information Gain.
+    \item \texttt{splitter="best"}: Strategi pemilihan split pada setiap node adalah memilih split terbaik (default). Alternatifnya adalah \texttt{"random"} untuk pemilihan acak.
+    \item \texttt{max\_depth=None}: Kedalaman pohon tidak dibatasi (default), sehingga pohon akan tumbuh hingga semua daun bersifat \textit{pure} atau tidak dapat di-split lagi. Hal ini berpotensi menimbulkan \textit{overfitting}.
+    \item \texttt{min\_samples\_split=2}: Minimal jumlah sampel untuk melakukan split pada sebuah node adalah 2 (default).
+    \item \texttt{min\_samples\_leaf=1}: Minimal jumlah sampel pada sebuah daun adalah 1 (default).
+    \item \texttt{max\_features=None}: Semua fitur digunakan untuk mencari split terbaik (default). 
+    \item \texttt{class\_weight="balanced"}: Memberikan bobot kelas secara otomatis yang proporsional terhadap kebalikannya dari frekuensi kelas, untuk mengatasi ketidakseimbangan kelas pada dataset.
+    \item \texttt{random\_state=42}: Menetapkan nilai \textit{seed} untuk memastikan hasil dapat direproduksi.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{gambar/decisiontreefix.png}
+    \caption{Confusion Matrix Model Decision Tree}
+    \label{fig:decision_tree}
+\end{figure}
+Dari gambar \ref{fig:decision_tree} kita bisa identifikasi performa model Decision Tree dalam mengklasifikasikan data uji. Confusion matrix ini memberikan informasi tentang jumlah prediksi yang benar dan salah untuk masing-masing kelas (churn dan tidak churn). Detailnya adalah sebagai berikut:
+\begin{itemize}
+    \item True Negative (TN): 799 (Pelanggan yang benar-benar tidak churn dan diprediksi tidak churn)
+    \item False Positive (FP): 234 (Pelanggan yang tidak churn, tetapi diprediksi churn)
+    \item False Negative (FN): 154 (Pelanggan yang churn, tetapi diprediksi tidak churn)
+    \item True Positive (TP): 220 (Pelanggan yang benar-benar churn dan diprediksi churn)
+\end{itemize}
+
+Setelah mendapatkan confusion matrix, kita dapat menghitung beberapa metrik evaluasi untuk model Decision Tree. Metrik yang umum digunakan adalah akurasi, presisi, recall, dan F1-score.
+
+\subsubsection*{Akurasi}
+Akurasi adalah proporsi prediksi yang benar dari total prediksi yang dilakukan oleh model. Berikut adalah perhitungan akurasi model Decision Tree:
+
+\begin{equation}
+    \text{Akurasi} = \frac{TP + TN}{TP + TN + FP + FN} = \frac{220 + 799}{220 + 799 + 234 + 154} = \frac{1019}{1407} \approx 0.724
+\end{equation}
+
+Akurasi model Decision Tree adalah sekitar 72.4\%. Ini menunjukkan bahwa model ini mampu memprediksi dengan benar sekitar 72.4\% dari total data uji yang diberikan.
+
+\subsubsection*{Precision}
+Precision adalah proporsi prediksi positif yang benar dari total prediksi positif yang dilakukan oleh model. Berikut adalah perhitungan presisi model Decision Tree:
+
+\begin{equation}
+    \text{Presisi} = \frac{TP}{TP + FP} = \frac{220}{220 + 234} = \frac{220}{454} \approx 0.485
+\end{equation}
+
+Presisi model Decision Tree adalah sekitar 48.5\%. Ini menunjukkan bahwa dari semua pelanggan yang diprediksi churn, hanya sekitar 48.5\% yang benar-benar churn. Hal ini mengindikasikan bahwa model ini masih menghasilkan cukup banyak false positive, yaitu pelanggan yang diprediksi churn padahal sebenarnya tidak.
+
+\subsubsection*{Recall}
+Recall adalah proporsi prediksi positif yang benar dari total aktual positif. Berikut adalah perhitungan recall model Decision Tree:
+
+\begin{equation}
+    \text{Recall} = \frac{TP}{TP + FN} = \frac{220}{220 + 154} = \frac{220}{374} \approx 0.588
+\end{equation}
+
+Recall model Decision Tree adalah sekitar 58.8\%. Ini menunjukkan bahwa model ini mampu menangkap sekitar 58.8\% dari pelanggan yang sebenarnya churn, namun masih ada 41.2\% pelanggan churn yang tidak terdeteksi oleh model.
+
+\subsubsection*{F1-score}
+F1-score adalah rata-rata harmonis dari presisi dan recall. F1-score memberikan gambaran yang lebih baik tentang keseimbangan antara presisi dan recall. Berikut adalah perhitungan F1-score model Decision Tree:
+
+\begin{equation}
+    \text{F1-score} = 2 \cdot \frac{\text{Presisi} \cdot \text{Recall}}{\text{Presisi} + \text{Recall}} = 2 \cdot \frac{0.485 \cdot 0.588}{0.485 + 0.588} \approx 0.531
+\end{equation}
+
+F1-score model Decision Tree adalah sekitar 53.1\%. Ini menunjukkan bahwa model ini memiliki keseimbangan yang cukup baik antara presisi dan recall, meskipun masih ada ruang untuk perbaikan, terutama dalam hal menangkap pelanggan yang churn.
+
+\subsubsection*{ROC-AUC}
+ROC-AUC (Receiver Operating Characteristic - Area Under the Curve) adalah metrik yang digunakan untuk mengukur kemampuan model dalam membedakan antara kelas positif dan negatif. Adapun nilai ROC-AUC yang didapatkan dari model Decision Tree adalah 0.6866. Nilai ini menunjukkan bahwa model memiliki kemampuan yang cukup baik dalam membedakan antara pelanggan yang churn dan tidak churn.
+
+Nilai ROC-AUC berkisar antara 0 hingga 1, di mana nilai 0.5 menunjukkan model yang tidak lebih baik dari tebakan acak, sedangkan nilai 1 menunjukkan model yang sempurna. Dengan nilai 0.6866, model Decision Tree ini menunjukkan performa yang cukup baik dalam memprediksi churn pelanggan.
+
+\subsubsection{Hasil Decision Tree dengan hyperparameter tuning}
+Setelah memperoleh hasil dari model Decision Tree tanpa hyperparameter tuning, langkah selanjutnya adalah melakukan \textit{hyperparameter tuning} untuk meningkatkan performa model, khususnya dalam hal \textit{recall} yang menjadi fokus utama pada kasus prediksi \textit{churn}. Proses \textit{tuning} dilakukan menggunakan \texttt{RandomizedSearchCV} dengan skema \textit{cross-validation}, di mana metrik utama yang digunakan sebagai acuan pemilihan model terbaik adalah \textit{recall}.
+
+Ruang pencarian (\textit{search space}) untuk parameter model Decision Tree dirancang dengan mempertimbangkan keseimbangan antara kompleksitas model dan risiko \textit{overfitting}, yaitu sebagai berikut:
+
+% \begin{itemize}
+%     \item \texttt{criterion}: \{\texttt{"gini"}, \texttt{"entropy"}, \texttt{"log\_loss"}\} – Fungsi pengukuran impurity untuk menentukan kualitas \textit{split}.
+%     \item \texttt{max\_depth}: \{3, 4, ..., 30\} – Kedalaman maksimum pohon; semakin besar nilai ini, model cenderung lebih kompleks.
+%     \item \texttt{min\_samples\_split}: \{2, 3, ..., 50\} – Jumlah minimum sampel untuk memecah sebuah node.
+%     \item \texttt{min\_samples\_leaf}: \{1, 2, ..., 30\} – Jumlah minimum sampel pada sebuah daun.
+%     \item \texttt{max\_features}: \{\texttt{None}, \texttt{"sqrt"}, \texttt{"log2"}\} – Jumlah fitur yang dipertimbangkan pada setiap \textit{split}.
+%     \item \texttt{class\_weight}: \{\texttt{None}, \texttt{"balanced"}\} – Penyesuaian bobot kelas untuk menangani ketidakseimbangan data.
+%     \item \texttt{ccp\_alpha}: [0.0, 0.02] – Parameter \textit{cost-complexity pruning} untuk memangkas cabang kecil.
+%     \item \texttt{splitter}: \{\texttt{"best"}\} – Strategi pemilihan \textit{split} terbaik pada setiap node.
+% \end{itemize}
+%buat tabel ruang pencarian
+\begin{table}[H]
+    \centering
+    \caption{Ruang Pencarian Hyperparameter Decision Tree}
+    \label{tab:search_space_decision_tree}
+    \begin{tabular}{|l|l|}
+        \hline
+        \textbf{Hyperparameter} & \textbf{Nilai yang diuji} \\ \hline
+        Criterion & \texttt{"gini"}, \texttt{"entropy"} \\ \hline
+        Max Depth & 3, 4, ..., 30 \\ \hline
+        Min Samples Split & 2, 3, ..., 50 \\ \hline
+        Min Samples Leaf & 1, 2, ..., 30 \\ \hline
+        Max Features & \texttt{None}, \texttt{"sqrt"}, \texttt{"log2"} \\ \hline
+        Class Weight & \texttt{None}, \texttt{"balanced"} \\ \hline
+        Ccp Alpha & [0.0, 0.02] \\ \hline
+        Splitter & \texttt{"best"} \\ \hline
+    \end{tabular}
+\end{table}
+
+Dari tabel diatas 80 iterasi \texttt{RandomizedSearchCV} dilakukan untuk mencari kombinasi hyperparameter yang optimal. Proses ini bertujuan untuk menemukan konfigurasi yang memberikan nilai \textit{recall} tertinggi, sehingga model dapat lebih efektif dala   m mendeteksi pelanggan yang berpotensi churn.
+
+Setelah dilakukan \texttt{RandomizedSearchCV}, diperoleh confusion matrix dari model Decision Tree yang telah dioptimasi hyperparameternya, seperti pada Gambar \ref{fig:decision_tree_tuned}. Confusion matrix ini menunjukkan performa model dalam mengklasifikasikan data uji setelah proses tuning.
+
+\newpage
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{gambar/bestdt.png}
+    \caption{Confusion Matrix Model Decision Tree dengan Hyperparameter Tuning}
+    \label{fig:decision_tree_tuned}
+\end{figure}
+Dari gambar \ref{fig:decision_tree_tuned}, kita dapat mengidentifikasi performa model Decision Tree yang telah dioptimasi hyperparameter. Confusion matrix ini memberikan informasi tentang jumlah prediksi yang benar dan salah untuk masing-masing kelas (churn dan tidak churn). Detailnya adalah sebagai berikut:
+
+\begin{itemize}
+    \item True Negative (TN): 569 (Pelanggan yang benar-benar tidak churn dan diprediksi tidak churn)
+    \item False Positive (FP): 464 (Pelanggan yang tidak churn, tetapi diprediksi churn)
+    \item False Negative (FN): 48 (Pelanggan yang churn, tetapi diprediksi tidak churn)
+    \item True Positive (TP): 326 (Pelanggan yang benar-benar churn dan diprediksi churn)
+\end{itemize}
+
+Setelah mendapatkan confusion matrix, kita dapat menghitung beberapa metrik evaluasi untuk model Decision Tree yang telah dioptimasi hyperparameter. Metrik yang umum digunakan adalah akurasi, presisi, recall, dan F1-score.
+
+\subsubsection*{Akurasi}
+Akurasi adalah proporsi prediksi yang benar dari total prediksi yang dilakukan oleh model. Berikut adalah perhitungan akurasi model Decision Tree setelah hyperparameter tuning:
+\begin{equation}
+    \text{Akurasi} = \frac{TP + TN}{TP + TN + FP + FN} = \frac{326 + 569}{326 + 569 + 464 + 48} = \frac{895}{1407} \approx 0.636
+\end{equation}
+
+Akurasi model Decision Tree setelah hyperparameter tuning adalah sekitar 63.6\%. Ini menunjukkan bahwa model ini mampu memprediksi dengan benar sekitar 63.6\% dari total data uji yang diberikan.
+
+\subsubsection*{Precision}
+Precision adalah proporsi prediksi positif yang benar dari total prediksi positif yang dilakukan oleh model. Berikut adalah perhitungan presisi model Decision Tree setelah hyperparameter tuning:
+
+\begin{equation}
+    \text{Presisi} = \frac{TP}{TP + FP} = \frac{326}{326 + 464} = \frac{326}{790} \approx 0.413
+\end{equation}
+
+Presisi model Decision Tree setelah hyperparameter tuning adalah sekitar 41.3\%. Ini menunjukkan bahwa dari semua pelanggan yang diprediksi churn, hanya sekitar 41.3\% yang benar-benar churn. Hal ini mengindikasikan bahwa model ini masih menghasilkan cukup banyak false positive, yaitu pelanggan yang diprediksi churn padahal sebenarnya tidak.
+
+\subsubsection*{Recall}
+Recall adalah proporsi prediksi positif yang benar dari total aktual positif. Berikut adalah perhitungan recall model Decision Tree setelah hyperparameter tuning:
+
+\begin{equation}
+    \text{Recall} = \frac{TP}{TP + FN} = \frac{326}{326 + 48} = \frac{326}{374} \approx 0.872
+\end{equation}
+
+Recall model Decision Tree setelah hyperparameter tuning adalah sekitar 87.2\%. Ini menunjukkan bahwa model ini mampu menangkap sekitar 87.2\% dari pelanggan yang sebenarnya churn, namun masih ada 12.8\% pelanggan churn yang tidak terdeteksi oleh model.
+
+\subsubsection*{F1-score}
+F1-score adalah rata-rata harmonis dari presisi dan recall. F1-score memberikan gambaran yang lebih baik tentang keseimbangan antara presisi dan recall. Berikut adalah perhitungan F1-score model Decision Tree setelah hyperparameter tuning:
+
+\begin{equation}
+    \text{F1-score} = 2 \cdot \frac{\text{Presisi} \cdot \text{Recall}}{\text{Presisi} + \text{Recall}} = 2 \cdot \frac{0.413 \cdot 0.872}{0.413 + 0.872} \approx 0.561
+\end{equation}
+
+F1-score model Decision Tree setelah hyperparameter tuning adalah sekitar 56.1\%. Ini menunjukkan bahwa model ini memiliki keseimbangan yang cukup baik antara presisi dan recall, meskipun masih ada ruang untuk perbaikan, terutama dalam hal menangkap pelanggan yang churn.
+
+\subsubsection*{ROC-AUC}
+ROC-AUC (Receiver Operating Characteristic - Area Under the Curve) adalah metrik yang digunakan untuk mengukur kemampuan model dalam membedakan antara kelas positif dan negatif. Adapun nilai ROC-AUC yang didapatkan dari model Decision Tree setelah hyperparameter tuning adalah 0.7880. Nilai ini menunjukkan bahwa model memiliki kemampuan yang cukup baik dalam membedakan antara pelanggan yang churn dan tidak churn.
+
+Nilai ROC-AUC berkisar antara 0 hingga 1, di mana nilai 0.5 menunjukkan model yang tidak lebih baik dari tebakan acak, sedangkan nilai 1 menunjukkan model yang sempurna. Dengan nilai 0.7880, model Decision Tree ini menunjukkan performa yang cukup baik dalam memprediksi churn pelanggan.
+
+\subsubsection{Parameter Terbaik}
+Nilai-nilai di atas diperoleh dari proses \texttt{RandomizedSearchCV} yang telah dilakukan sebelumnya. Adapun kombinasi hyperparameter untuk mendapatkan hasil di atas ditunjukkan pada Tabel \ref{tab:best_params_decision_tree}. Kombinasi ini merupakan hasil terbaik yang diperoleh dari proses tuning hyperparameter, yang bertujuan untuk meningkatkan performa model dalam mendeteksi pelanggan yang churn.
+
+% \begin{verbatim}
+%     criterion     : entropy
+%     max_depth     : 10
+%     min_samples_split : 5
+%     min_samples_leaf  : 2
+%     max_features  : sqrt
+%     class_weight  : balanced
+%     ccp_alpha     : 0.005
+%     splitter      : best
+%     \end{verbatim}
+%buatkan tabel untuk kombinasi hyperparameter terbaik
+
+\begin{table}[H]
+    \centering
+    \caption{Kombinasi Hyperparameter Terbaik (RandomizedSearchCV)}
+    \label{tab:best_params_decision_tree}
+    \begin{tabular}{|l|l|}
+        \hline
+        \textbf{Hyperparameter} & \textbf{Nilai Terbaik} \\ \hline
+        Criterion & log\_loss \\ \hline
+        Max Depth & 22 \\ \hline
+        Min Samples Split & 38 \\ \hline
+        Min Samples Leaf & 3 \\ \hline
+        Max Features & None \\ \hline
+        Class Weight & balanced \\ \hline
+        Ccp Alpha & 0.0123677 \\ \hline
+        Splitter & best \\ \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{Perbandingan Hasil Decision Tree Sebelum dan Sesudah Hyperparameter Tuning}
+Setelah melakukan hyperparameter tuning, kita dapat membandingkan hasil model Decision Tree sebelum dan sesudah tuning. Tabel \ref{tab:comparison_decision_tree} menunjukkan perbandingan metrik evaluasi antara model baseline dan model yang telah dioptimasi hyperparameter.
+\begin{table}[H]
+    \centering
+    \caption{Perbandingan Hasil Model Decision Tree Sebelum dan Sesudah Hyperparameter Tuning}
+    \label{tab:comparison_decision_tree}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        \textbf{Metrik} & \textbf{Sebelum Tuning} & \textbf{Setelah Tuning} \\ \hline
+        Akurasi & 72.4\% & 63.6\% \\ \hline
+        Presisi & 48.5\% & 41.3\% \\ \hline
+        Recall & 58.8\% & 87.2\% \\ \hline
+        F1-score & 53.1\% & 56.1\% \\ \hline
+        ROC-AUC & 0.6866 & 0.7880 \\ \hline
+    \end{tabular}
+\end{table}
+Dari tabel \ref{tab:comparison_decision_tree}, dapat dilihat bahwa setelah melakukan hyperparameter tuning, model Decision Tree mengalami peningkatan yang signifikan pada metrik recall, yaitu dari 58.8\% menjadi 87.2\%. Hal ini menunjukkan bahwa model yang telah dioptimasi lebih baik dalam mendeteksi pelanggan yang berpotensi churn.
+
+Namun, akurasi dan presisi model mengalami penurunan, yaitu dari 72.4\% menjadi 63.6\% untuk akurasi dan dari 48.5\% menjadi 41.3\% untuk presisi. Meskipun demikian, peningkatan recall yang signifikan menunjukkan bahwa model ini lebih efektif dalam menangkap pelanggan churn, yang merupakan tujuan utama dari analisis ini.
+
+Meskipun akurasi menurun, peningkatan recall menunjukkan bahwa model ini lebih fokus pada deteksi pelanggan churn, yang merupakan prioritas utama dalam konteks ini. Nilai ROC-AUC juga meningkat dari 0.6866 menjadi 0.7880, menunjukkan bahwa model Decision Tree yang telah dioptimasi lebih baik dalam membedakan antara pelanggan yang churn dan tidak churn.
+    
+
+
+
+
 
 
 
