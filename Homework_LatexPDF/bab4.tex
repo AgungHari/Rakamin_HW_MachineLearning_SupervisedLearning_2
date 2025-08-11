@@ -29,7 +29,7 @@ Berikut adalah hasil confusion matrix dari model Logistic Regression yang telah 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.4\textwidth]{gambar/logisticregressionfix.png}
+    \includegraphics[width=0.5\textwidth]{gambar/logisticregressionfix.png}
     \caption{Confusion Matrix Model Logistic Regression}
     \label{fig:confusion_matrix_logistic_regression}
 \end{figure}
@@ -50,35 +50,43 @@ Setelah mendapatkan confusion matrix, kita dapat menghitung beberapa metrik eval
 
 Akurasi adalah proporsi prediksi yang benar dari total prediksi yang dilakukan oleh model. Berikut adalah perhitungan akurasi model Logistic Regression:
 \begin{equation}
-    \text{Akurasi} = \frac{TP + TN}{TP + TN + FP + FN} = \frac{296 + 723}{296 + 723 + 78 + 310} = \frac{1019}{1407} \approx 0.724
+    \text{Akurasi} = \frac{TP + TN}{TP + TN + FP + FN} = \frac{296 + 723}{296 + 723 + 310 + 78} = \frac{1019}{1407} \approx 0.724
 \end{equation}
-Akurasi model Logistic Regression adalah sekitar 72.4\%. Ini menunjukkan bahwa model ini mampu mengklasifikasikan data uji dengan cukup baik, meskipun masih ada ruang untuk perbaikan.
+Akurasi model Logistic Regression adalah sekitar 72.4\%. Ini menunjukkan bahwa model ini mampu memprediksi dengan benar sekitar 72.4\% dari total data uji yang diberikan.
 
 \subsubsection*{Precision}
 
 Precision adalah proporsi prediksi positif yang benar dari total prediksi positif yang dilakukan oleh model. Berikut adalah perhitungan presisi model Logistic Regression:
 \begin{equation}
-    \text{Presisi} = \frac{TP}{TP + FP} = \frac{296}{296 + 78} = \frac{296}{374} \approx 0.791
+    \text{Presisi} = \frac{TP}{TP + FP} = \frac{296}{296 + 310} = \frac{296}{606} \approx 0.488
 \end{equation}
-Presisi model Logistic Regression adalah sekitar 79.1\%. Ini menunjukkan bahwa ketika model memprediksi pelanggan akan churn, sekitar 79.1\% dari prediksi tersebut benar-benar churn.
+Presisi model Logistic Regression adalah sekitar 48.8\%. Ini menunjukkan bahwa dari semua pelanggan yang diprediksi churn, hanya sekitar 48.8\% yang benar-benar churn. Hal ini mengindikasikan bahwa model ini masih menghasilkan cukup banyak false positive, yaitu pelanggan yang diprediksi churn padahal sebenarnya tidak.
+
 
 \subsubsection*{Recall}
 
 Recall adalah proporsi prediksi positif yang benar dari total aktual positif. Berikut adalah perhitungan recall model Logistic Regression:
 \begin{equation}
-    \text{Recall} = \frac{TP}{TP + FN} = \frac{296}{296 + 310} = \frac{296}{606} \approx 0.488
+    \text{Recall} = \frac{TP}{TP + FN} = \frac{296}{296 + 78} = \frac{296}{374} \approx 0.791
 \end{equation}
-Recall model Logistic Regression adalah sekitar 48.8\%. Ini menunjukkan bahwa model ini hanya mampu menangkap sekitar 48.8\% dari pelanggan yang sebenarnya churn.
+Recall model Logistic Regression adalah sekitar 79.1\%. Ini menunjukkan bahwa model ini mampu menangkap sekitar 79.1\% dari pelanggan yang sebenarnya churn, namun masih ada 20.9\% pelanggan churn yang tidak terdeteksi oleh model.
 
 \subsubsection*{F1-score}
 
 F1-score adalah rata-rata harmonis dari presisi dan recall. F1-score memberikan gambaran yang lebih baik tentang keseimbangan antara presisi dan recall. Berikut adalah perhitungan F1-score model Logistic Regression:
 \begin{equation}
-    \text{F1-score} = 2 \cdot \frac{\text{Presisi} \cdot \text{Recall}}{\text{Presisi} + \text{Recall}} = 2 \cdot \frac{0.791 \cdot 0.488}{0.791 + 0.488} \approx 0.604
+    \text{F1-score} = 2 \cdot \frac{\text{Presisi} \cdot \text{Recall}}{\text{Presisi} + \text{Recall}} = 2 \cdot \frac{0.488 \cdot 0.791}{0.488 + 0.791} \approx 0.604
 \end{equation}
-F1-score model Logistic Regression adalah sekitar 60.4\%. Ini menunjukkan bahwa model ini memiliki keseimbangan yang cukup baik antara presisi dan recall, meskipun masih ada ruang untuk perbaikan.
+F1-score model Logistic Regression adalah sekitar 60.4\%. Ini menunjukkan bahwa model ini memiliki keseimbangan yang cukup baik antara presisi dan recall, meskipun masih ada ruang untuk perbaikan, terutama dalam hal menangkap pelanggan yang churn.
 
 \subsubsection*{ROC-AUC}
 ROC-AUC (Receiver Operating Characteristic - Area Under the Curve) adalah metrik yang digunakan untuk mengukur kemampuan model dalam membedakan antara kelas positif dan negatif. Adapun nilai ROC-AUC yang didapatkan dari model Logistic Regression adalah 0.8279. Nilai ini menunjukkan bahwa model memiliki kemampuan yang baik dalam membedakan antara pelanggan yang churn dan tidak churn. 
 
 Nilai ROC-AUC berkisar antara 0 hingga 1, di mana nilai 0.5 menunjukkan model yang tidak lebih baik dari tebakan acak, sedangkan nilai 1 menunjukkan model yang sempurna. Dengan nilai 0.8279, model Logistic Regression ini menunjukkan performa yang cukup baik dalam memprediksi churn pelanggan.
+
+\subsubsection{Interpretasi Hasil dan Implikasi Bisnis}
+Hasil pengujian model Logistic Regression menunjukkan bahwa model ini memiliki akurasi sekitar 72.4\%, dengan presisi 48.8\%, recall 79.1\%, dan F1-score 60.4\%. Meskipun model ini mampu menangkap sebagian besar pelanggan yang churn (recall yang tinggi), namun presisi yang rendah menunjukkan bahwa model ini juga menghasilkan banyak false positive, yaitu pelanggan yang diprediksi churn padahal sebenarnya tidak yang mungkin akan mengakibatkan perusahaan mengeluarkan biaya tambahan untuk intervensi yang tidak perlu, seperti penawaran khusus atau peningkatan layanan kepada pelanggan yang sebenarnya tidak berisiko churn.
+
+Menurut saya metriks evaluasi yang paling relevan untuk kasus ini adalah recall, karena dalam konteks bisnis, penting untuk menangkap sebanyak mungkin pelanggan yang berpotensi churn. Dengan recall yang tinggi, perusahaan dapat lebih proaktif dalam melakukan intervensi untuk mencegah churn, seperti memberikan penawaran khusus atau meningkatkan kualitas layanan.
+
+Namun, perlu diingat bahwa model ini masih memiliki ruang untuk perbaikan, terutama dalam hal presisi. Perusahaan perlu mempertimbangkan untuk melakukan hyperparameter tuning atau mencoba model lain yang lebih kompleks untuk meningkatkan performa prediksi churn.
