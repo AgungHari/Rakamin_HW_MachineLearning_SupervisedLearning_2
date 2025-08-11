@@ -543,3 +543,17 @@ Untuk fitur numerik, kita hanya memiliki 1 fitur yang perlu dilakukan preprocess
 Selain itu kita juga tidak perlu melakukan transformasi log pada fitur ini karena fitur ini sudah memiliki distribusi yang cenderung normal. Sehingga kita akan menggunakan fitur MonthlyCharges apa adanya tanpa melakukan preprocessing.
 
 Setelah semua siap kita akan lanjut ke tahap selanjutnya yaitu membangun model klasifikasi. Kita akan menggunakan model klasifikasi yang sudah umum digunakan seperti Logistic Regression, Decision Tree, Random Forest, dan XGBoost. Kita akan membandingkan performa dari setiap model untuk memilih model yang terbaik.
+
+\subsection{Handling Imbalanced Data}
+Setelah melakukan preprocessing pada data, kita akan melakukan handling imbalanced data. Imbalanced data adalah kondisi di mana jumlah data pada setiap kelas tidak seimbang. Hal ini dapat mempengaruhi performa model klasifikasi yang akan dibangun. Namun pertama tama kita akan melakukan analisis terhadap distribusi kelas pada target variabel Churn. Kita akan menggunakan .value\_counts() untuk melihat distribusi kelas pada target variabel Churn.
+
+\begin{lstlisting}[language=Python, caption=Distribusi Kelas pada Target Variabel Churn]
+# Distribusi kelas pada target variabel Churn
+Kelas 0: 4130 sampel
+Kelas 1: 1495 sampel
+\end{lstlisting}
+
+Dari hasil distribusi kelas pada target variabel Churn, kita mendapatkan bahwa jumlah sampel pada kelas 0 (tidak churn) jauh lebih banyak dibandingkan dengan kelas 1 (churn). Hal ini menunjukkan bahwa data yang kita miliki tidak seimbang.
+
+Namun jika dihitung dari rasionya  jumlah kelas 0 (tidak churn) adalah sekitar 73.8\% dan jumlah kelas 1 (churn) adalah sekitar 26.2\%. Hal ini menunjukkan bahwa data yang kita miliki masih dalam batas wajar untuk digunakan dalam model klasifikasi. Sehingga kita tetap perlu melakukan tuning pada model dengan menambahkan class\_weight='balanced' pada setiap model yang akan kita gunakan. Dengan begitu model akan memberikan bobot yang lebih besar pada kelas yang kurang terwakili yaitu kelas 1 (churn).
+

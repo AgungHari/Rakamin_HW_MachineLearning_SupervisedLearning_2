@@ -89,4 +89,137 @@ Hasil pengujian model Logistic Regression menunjukkan bahwa model ini memiliki a
 
 Menurut saya metriks evaluasi yang paling relevan untuk kasus ini adalah recall, karena dalam konteks bisnis, penting untuk menangkap sebanyak mungkin pelanggan yang berpotensi churn. Dengan recall yang tinggi, perusahaan dapat lebih proaktif dalam melakukan intervensi untuk mencegah churn, seperti memberikan penawaran khusus atau meningkatkan kualitas layanan.
 
-Namun, perlu diingat bahwa model ini masih memiliki ruang untuk perbaikan, terutama dalam hal presisi. Perusahaan perlu mempertimbangkan untuk melakukan hyperparameter tuning atau mencoba model lain yang lebih kompleks untuk meningkatkan performa prediksi churn.
+Namun, perlu diingat bahwa model ini masih memiliki ruang untuk perbaikan, terutama dalam hal presisi. Perusahaan perlu mempertimbangkan untuk melakukan hyperparameter tuning atau mencoba model lain yang lebih kompleks untuk meningkatkan performa prediksi churn. Pada tahap selanjutnya, akan dilakukan hyperparameter tuning untuk mencoba meningkatkan presisi tanpa mengorbankan recall yang tinggi.
+
+\subsubsection{Hasil Logistic Regression dengan hyperparameter tuning}
+
+Berdasarkan hasil model baseline Logistic Regression, diketahui bahwa model telah memiliki nilai \textit{recall} yang cukup baik namun masih memiliki ruang perbaikan pada metrik \textit{precision}. Oleh karena itu, dilakukan proses optimisasi hyperparameter untuk mencari kombinasi parameter yang lebih optimal. Metode yang digunakan adalah \textit{RandomizedSearchCV} dengan skema \textit{Stratified K-Fold Cross-Validation} untuk memastikan proporsi kelas tetap seimbang pada setiap fold. Hyperparameter yang diujikan meliputi c, penalty, solver, dan class\_weight. Kriteria pemilihan model terbaik ditentukan berdasarkan metrik \textit{recall} untuk memaksimalkan kemampuan model dalam mendeteksi pelanggan yang berpotensi churn.
+
+Pemilihan kombinasi terbaik dilakukan berdasarkan metrik \textit{recall}, mengingat tujuan utama dalam kasus ini adalah memaksimalkan deteksi pelanggan churn. Adapun ruang pencarian hyperparameter yang digunakan ditunjukkan pada Tabel \ref{tab:search_space_log_reg}.
+
+\begin{table}[H]
+    \centering
+    \caption{Ruang Pencarian Hyperparameter Logistic Regression}
+    \label{tab:search_space_log_reg}
+    \begin{tabular}{|l|l|}
+        \hline
+        \textbf{Hyperparameter} & \textbf{Nilai yang diuji} \\ \hline
+        Solver & \texttt{liblinear}, \texttt{saga} \\ \hline
+        Penalty & \texttt{l1}, \texttt{l2} \\ \hline
+        Regularisasi $C$ & Distribusi log-uniform $[10^{-3}, 10^{2}]$ \\ \hline
+        Class Weight & \texttt{None}, \texttt{balanced}, \{0:1, 1:2\}, \{0:1, 1:3\} \\ \hline
+    \end{tabular}
+\end{table}
+
+Proses tuning dilakukan menggunakan $n\_iter = 50$, yang berarti \textit{RandomizedSearchCV} akan menguji 50 kombinasi hyperparameter secara acak dari ruang pencarian yang ada. Evaluasi dilakukan menggunakan skema \textit{Stratified K-Fold Cross-Validation} untuk mempertahankan proporsi kelas pada setiap fold. Skor yang dihitung meliputi \textit{recall}, \textit{precision}, \textit{f1-score}, dan \textit{ROC-AUC}, dengan metrik \textit{recall} sebagai acuan utama untuk pemilihan model terbaik.
+
+Setelah dilakukan RandomizedSearchCV, diperoleh confusion matrix dari model Logistic Regression yang telah dioptimasi hyperparameternya, seperti pada Gambar \ref{fig:confusion_matrix_logistic_regression_tuned}. Confusion matrix ini menunjukkan performa model dalam mengklasifikasikan data uji setelah proses tuning.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{gambar/bestlog.png}
+    \caption{Confusion Matrix Model Logistic Regression dengan Hyperparameter Tuning}
+    \label{fig:confusion_matrix_logistic_regression_tuned}
+\end{figure}
+
+Dari gambar \ref{fig:confusion_matrix_logistic_regression_tuned}, kita dapat mengidentifikasi performa model Logistic Regression yang telah dioptimasi hyperparameter. Confusion matrix ini memberikan informasi tentang jumlah prediksi yang benar dan salah untuk masing-masing kelas (churn dan tidak churn). Detailnya adalah sebagai berikut:
+
+\begin{itemize}
+    \item True Negative (TN): 708
+    \item False Positive (FP): 325
+    \item False Negative (FN): 73
+    \item True Positive (TP): 301
+\end{itemize}
+
+Setelah mendapatkan confusion matrix, kita dapat menghitung beberapa metrik evaluasi untuk model Logistic Regression yang telah dioptimasi hyperparameter. Metrik yang umum digunakan adalah akurasi, presisi, recall, dan F1-score.
+
+\subsubsection*{Akurasi}
+Akurasi adalah proporsi prediksi yang benar dari total prediksi yang dilakukan oleh model. Berikut adalah perhitungan akurasi model Logistic Regression setelah hyperparameter tuning:
+\begin{equation}
+    \text{Akurasi} = \frac{TP + TN}{TP + TN + FP + FN} = \frac{301 + 708}{301 + 708 + 325 + 73} = \frac{1009}{1407} \approx 0.717
+\end{equation}
+Akurasi model Logistic Regression setelah hyperparameter tuning adalah sekitar 71.7\%. Ini menunjukkan bahwa model ini mampu memprediksi dengan benar sekitar 71.7\% dari total data uji yang diberikan.
+\subsubsection*{Precision}
+Precision adalah proporsi prediksi positif yang benar dari total prediksi positif yang dilakukan oleh model. Berikut adalah perhitungan presisi model Logistic Regression setelah hyperparameter tuning:
+\begin{equation}
+    \text{Presisi} = \frac{TP}{TP + FP} = \frac{301}{301 + 325} = \frac{301}{626} \approx 0.481
+\end{equation}
+Presisi model Logistic Regression setelah hyperparameter tuning adalah sekitar 48.1\%. Ini menunjukkan bahwa dari semua pelanggan yang diprediksi churn, hanya sekitar 48.1\% yang benar-benar churn. Hal ini mengindikasikan bahwa model ini masih menghasilkan cukup banyak false positive, yaitu pelanggan yang diprediksi churn padahal sebenarnya tidak.
+\subsubsection*{Recall}
+Recall adalah proporsi prediksi positif yang benar dari total aktual positif. Berikut adalah perhitungan recall model Logistic Regression setelah hyperparameter tuning:
+\begin{equation}
+    \text{Recall} = \frac{TP}{TP + FN} = \frac{301}{301 + 73} = \frac{301}{374} \approx 0.804
+\end{equation}
+Recall model Logistic Regression setelah hyperparameter tuning adalah sekitar 80.4\%. Ini menunjukkan bahwa model ini mampu menangkap sekitar 80.4\% dari pelanggan yang sebenarnya churn, namun masih ada 19.6\% pelanggan churn yang tidak terdeteksi oleh model.
+\subsubsection*{F1-score}
+F1-score adalah rata-rata harmonis dari presisi dan recall. F1-score memberikan gambaran yang lebih baik tentang keseimbangan antara presisi dan recall. Berikut adalah perhitungan F1-score model Logistic Regression setelah hyperparameter tuning:
+\begin{equation}
+    \text{F1-score} = 2 \cdot \frac{\text{Presisi} \cdot \text{Recall}}{\text{Presisi} + \text{Recall}} = 2 \cdot \frac{0.481 \cdot 0.804}{0.481 + 0.804} \approx 0.604
+\end{equation}
+F1-score model Logistic Regression setelah hyperparameter tuning adalah sekitar 60.4\%. Ini menunjukkan bahwa model ini memiliki keseimbangan yang cukup baik antara presisi dan recall, meskipun masih ada ruang untuk perbaikan, terutama dalam hal menangkap pelanggan yang churn.
+
+\subsubsection*{ROC-AUC}
+ROC-AUC (Receiver Operating Characteristic - Area Under the Curve) adalah metrik yang digunakan untuk mengukur kemampuan model dalam membedakan antara kelas positif dan negatif. Adapun nilai ROC-AUC yang didapatkan dari model Logistic Regression setelah hyperparameter tuning adalah 0.8279. Nilai ini menunjukkan bahwa model memiliki kemampuan yang baik dalam membedakan antara pelanggan yang churn dan tidak churn.
+
+Nilai ROC-AUC berkisar antara 0 hingga 1, di mana nilai 0.5 menunjukkan model yang tidak lebih baik dari tebakan acak, sedangkan nilai 1 menunjukkan model yang sempurna. Dengan nilai 0.8279, model Logistic Regression ini menunjukkan performa yang cukup baik dalam memprediksi churn pelanggan.
+
+\subsubsection{Parameter Terbaik}
+
+Nilai nilai diatas diperoleh dari proses \textit{RandomizedSearchCV} yang telah dilakukan sebelumnya. Adapun kombinasi hyperparameter untuk mendapatkan hasil diatas ditunjukkan pada Tabel \ref{tab:best_params_logreg}. Kombinasi ini merupakan hasil terbaik yang diperoleh dari proses tuning hyperparameter, yang bertujuan untuk meningkatkan performa model dalam mendeteksi pelanggan yang churn.
+
+\begin{table}[H]
+    \centering
+    \caption{Kombinasi Hyperparameter Terbaik (RandomizedSearchCV)}
+    \label{tab:best_params_logreg}
+    \begin{tabular}{|l|l|}
+        \hline
+        \textbf{Hyperparameter} & \textbf{Nilai Terbaik} \\ \hline
+        $C$ & 40.679 \\ \hline
+        \texttt{class\_weight} & \{0: 1,\; 1: 3\} \\ \hline
+        \texttt{penalty} & \texttt{l2} \\ \hline
+        \texttt{solver} & \texttt{liblinear} \\ \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{Perbandingan Hasil Logistic Regression Sebelum dan Sesudah Hyperparameter Tuning}
+Setelah melakukan hyperparameter tuning, kita dapat membandingkan hasil model Logistic Regression sebelum dan sesudah tuning. Tabel \ref{tab:comparison_logreg} menunjukkan perbandingan metrik evaluasi antara model baseline dan model yang telah dioptimasi hyperparameter.
+
+\begin{table}[H]
+    \centering
+    \caption{Perbandingan Hasil Model Logistic Regression Sebelum dan Sesudah Hyperparameter Tuning}
+    \label{tab:comparison_logreg}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        \textbf{Metrik} & \textbf{Sebelum Tuning} & \textbf{Setelah Tuning} \\ \hline
+        Akurasi & 72.4\% & 71.7\% \\ \hline
+        Presisi & 48.8\% & 48.1\% \\ \hline
+        Recall & 79.1\% & 80.4\% \\ \hline
+        F1-score & 60.4\% & 60.4\% \\ \hline
+        ROC-AUC & 0.8279 & 0.8279 \\ \hline
+    \end{tabular}
+\end{table}
+
+Dari tabel \ref{tab:comparison_logreg}, dapat dilihat bahwa setelah melakukan hyperparameter tuning, model Logistic Regression mengalami peningkatan pada metrik recall, yaitu dari 79.1\% menjadi 80.4\%. Hal ini menunjukkan bahwa model yang telah dioptimasi lebih baik dalam mendeteksi pelanggan yang berpotensi churn.
+
+Namun, akurasi dan presisi model mengalami penurunan, yaitu dari 72.4\% menjadi 71.7\% untuk akurasi dan dari 48.8\% menjadi 48.1\% untuk presisi. ROC-AUC tetap sama pada nilai 0.8279, yang menunjukkan bahwa tuning yang dilakukan fokus pada peningkatan recall tanpa mengorbankan kemampuan model dalam membedakan antara kelas churn dan tidak churn.
+
+Meskipun demikian, peningkatan recall yang signifikan menunjukkan bahwa model ini lebih efektif dalam menangkap pelanggan churn, yang merupakan tujuan utama dari analisis ini.
+
+\newpage
+\subsection{Pengujian Model Decision Tree}
+Pengujian model Decision Tree dilakukan dengan menggunakan data uji yang telah disiapkan. Model ini dilatih pada data latih dan kemudian diuji pada data uji untuk mengevaluasi performanya. Hasil dari pengujian ini akan memberikan gambaran tentang seberapa baik model dalam memprediksi churn pelanggan.
+
+Setelah dilakukan pengujian model Decision Tree, diperoleh hasil confusion matrix yang merepresentasikan performa model dalam mengklasifikasikan data uji. Confusion matrix ini menunjukkan jumlah prediksi yang benar dan salah untuk masing-masing kelas (churn dan tidak churn). Dari confusion matrix, dapat dihitung beberapa metrik evaluasi seperti akurasi, presisi, recall, dan F1-score.
+
+\subsubsection{Hasil Decision Tree tanpa hyperparameter tuning}
+% tiru penjelasan logistic regression di atas namun sesuaikan dengan penjelasan subbab ini yaitu decision tree
+Berikut adalah hasil confusion matrix dari model Decision Tree yang telah diuji pada data uji, Gambar \ref{fig:decision_tree} menunjukkan confusion matrix yang diperoleh dari model Decision Tree tanpa melakukan hyperparameter tuning. Sehingga baseline model Decision Tree ini akan menjadi acuan untuk perbandingan dengan model-model lainnya yang akan diuji pada tahap selanjutnya. Namun kita tetap perlu menambahkan beberapa setting manual karena pada bab sebelumnya kita menemukan imbalance data pada dataset yang digunakan. Oleh karena itu, kita perlu mengatur beberapa parameter pada model Decision Tree untuk mengatasi masalah tersebut. Berikut adalah parameter yang digunakan pada model Decision Tree:
+
+
+
+
+
+
+
+
+

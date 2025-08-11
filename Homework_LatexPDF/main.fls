@@ -287,6 +287,14 @@ INPUT ./gambar/logisticregressionfix.png
 INPUT ./gambar/logisticregressionfix.png
 INPUT ./gambar/logisticregressionfix.png
 INPUT ./gambar/logisticregressionfix.png
+INPUT c:/texlive/2024/texmf-dist/tex/latex/base/omscmr.fd
+INPUT c:/texlive/2024/texmf-dist/tex/latex/base/omscmr.fd
+INPUT c:/texlive/2024/texmf-dist/tex/latex/base/omscmr.fd
+INPUT ./gambar/bestlog.png
+INPUT ./gambar/bestlog.png
+INPUT ./gambar/bestlog.png
+INPUT ./gambar/bestlog.png
+INPUT ./gambar/bestlog.png
 INPUT ./bab5.tex
 INPUT ./bab5.tex
 INPUT ./bab5.tex
@@ -308,4 +316,5 @@ INPUT c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
 INPUT c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb
 INPUT c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb
 INPUT c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb
+INPUT c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb
 INPUT c:/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb
