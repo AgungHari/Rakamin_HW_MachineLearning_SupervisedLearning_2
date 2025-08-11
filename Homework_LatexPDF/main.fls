@@ -282,11 +282,11 @@ INPUT ./bab4.tex
 INPUT ./bab4.tex
 INPUT ./bab4.tex
 INPUT bab4.tex
-INPUT ./gambar/logisticregression.png
-INPUT ./gambar/logisticregression.png
-INPUT ./gambar/logisticregression.png
-INPUT ./gambar/logisticregression.png
-INPUT ./gambar/logisticregression.png
+INPUT ./gambar/logisticregressionfix.png
+INPUT ./gambar/logisticregressionfix.png
+INPUT ./gambar/logisticregressionfix.png
+INPUT ./gambar/logisticregressionfix.png
+INPUT ./gambar/logisticregressionfix.png
 INPUT ./bab5.tex
 INPUT ./bab5.tex
 INPUT ./bab5.tex

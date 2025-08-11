@@ -1,9 +1,9 @@
 # Fdb version 4
-["pdflatex"] 1754871777.87752 "d:/Rakamin_SupervisedLearning2/Homework_LatexPDF/main.tex" "main.pdf" "main" 1754871780.91999 0
+["pdflatex"] 1754876582.14713 "d:/Rakamin_SupervisedLearning2/Homework_LatexPDF/main.tex" "main.pdf" "main" 1754876585.13344 0
   "bab1.tex" 1754869691 2575 b3671b5395b6e0820573c156510c6b1f ""
   "bab2.tex" 1754870067 16715 0b9c465886878499a225d9565318a837 ""
   "bab3.tex" 1754870287 44642 7b159a5718ffb32b6f885cb8f54e82b1 ""
-  "bab4.tex" 1754871777 6737 78d493c09f270f6e20c5ae98e006aeb9 ""
+  "bab4.tex" 1754876580 7989 d7b05b736d04ba2a605f264fa261692a ""
   "bab5.tex" 1754601580 40 d20a8b0c48374529a45e1918429b71a6 ""
   "c:/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1718771087 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "c:/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1718772041 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -115,7 +115,7 @@
   "gambar/heatmapnum.png" 1754801105 29167 8c0a0b2fe5b8e792b0c4e8d5b7c29d84 ""
   "gambar/histogram.png" 1754800899 46670 7e59ee5698650bbb4c24c087fac85310 ""
   "gambar/internetservice.png" 1754797805 19524 3cd5191458783d24df003529ad99b26d ""
-  "gambar/logisticregression.png" 1754870829 18834 8c2d216fa986eb00c55ff5637c446066 ""
+  "gambar/logisticregressionfix.png" 1754876086 18955 7a0c71633b600102327d0ceaed8acc59 ""
   "gambar/metodologi.png" 1754781257 8544 958efbdfea695ed62c7f5ee173021a57 ""
   "gambar/onehotencoding.png" 1754869329 14875 69bd2bd6df45b7d6ceb56ccd24411acf ""
   "gambar/onlinesecurity.png" 1754797247 19773 e9ae8cb29ab716f2578ccadf4668c943 ""
@@ -124,8 +124,8 @@
   "gambar/scikitlearn.png" 1754869901 658585 e35fa12e5c3dd2a602d04330c86908ec ""
   "gambar/techsupport.png" 1754796940 19323 e99214834e084f72a046358af7e6dfc7 ""
   "gambar/tenureboxplot.png" 1754803861 17607 6f474967c6c23247d815554ce036b220 ""
-  "main.aux" 1754871780 11251 93f33e228865880b639097001e06528f "pdflatex"
-  "main.out" 1754871780 6597 0c27d760ed36974288b1dcd7dfbf195b "pdflatex"
+  "main.aux" 1754876584 11251 8b88cce63c8493c87826f6fed1c5f8a0 "pdflatex"
+  "main.out" 1754876584 6597 0c27d760ed36974288b1dcd7dfbf195b "pdflatex"
   "main.tex" 1754796360 1117 884004957e0e92bb38304f190ac640bf ""
   (generated)
   "main.aux"
