@@ -1,9 +1,9 @@
 # Fdb version 4
-["pdflatex"] 1754900130.40991 "d:/Rakamin_SupervisedLearning2/Homework_LatexPDF/main.tex" "main.pdf" "main" 1754900133.49537 0
+["pdflatex"] 1754925273.81259 "d:/Rakamin_SupervisedLearning2/Homework_LatexPDF/main.tex" "main.pdf" "main" 1754925278.15053 0
   "bab1.tex" 1754869691 2575 b3671b5395b6e0820573c156510c6b1f ""
   "bab2.tex" 1754870067 16715 0b9c465886878499a225d9565318a837 ""
   "bab3.tex" 1754896933 46084 69188ab1b38f4b89e3ac87122aa3ec4e ""
-  "bab4.tex" 1754900128 20906 7e723bd66775eb5ecbf95c031a6dec8e ""
+  "bab4.tex" 1754925271 20910 09708a1d0376bd98a9e9de83a50b610c ""
   "bab5.tex" 1754899929 817 9e5b7fe75cc46a2d1b9cdc8545502952 ""
   "c:/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1718771087 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "c:/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1718772041 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -127,8 +127,8 @@
   "gambar/scikitlearn.png" 1754869901 658585 e35fa12e5c3dd2a602d04330c86908ec ""
   "gambar/techsupport.png" 1754796940 19323 e99214834e084f72a046358af7e6dfc7 ""
   "gambar/tenureboxplot.png" 1754803861 17607 6f474967c6c23247d815554ce036b220 ""
-  "main.aux" 1754900133 13877 4345d4607e3c2b1942ef4f215ae913ae "pdflatex"
-  "main.out" 1754900133 8900 ebad3e3e3b3c25e05d7d808acae1670b "pdflatex"
+  "main.aux" 1754925277 13877 4345d4607e3c2b1942ef4f215ae913ae "pdflatex"
+  "main.out" 1754925277 8900 ebad3e3e3b3c25e05d7d808acae1670b "pdflatex"
   "main.tex" 1754796360 1117 884004957e0e92bb38304f190ac640bf ""
   (generated)
   "main.aux"
