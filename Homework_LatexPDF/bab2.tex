@@ -17,6 +17,7 @@ Model klasifikasi adalah teknik dalam machine learning yang digunakan untuk meng
 % Buat tinjauan pustaka untuk Logistic Regression gunakan refrensi yang relevan
 Logistic regression adalah metode statistik yang digunakan untuk analisis regresi ketika variabel dependen bersifat kategorikal. Meskipun namanya mengandung kata "regression", logistic regression sebenarnya digunakan untuk klasifikasi. Metode ini memodelkan probabilitas suatu kejadian dengan menggunakan fungsi logit, yang mengubah output linear menjadi nilai antara 0 dan 1, sehingga cocok untuk prediksi kelas biner.
 
+\newpage
 Untuk memahami logistic regression, kita perlu memahami konsep dasar dari regresi logistik. Regresi logistik digunakan untuk memprediksi probabilitas dari suatu kejadian yang bersifat biner (dua kelas), seperti churn atau tidak churn. Model ini mengasumsikan bahwa log odds dari probabilitas kejadian tersebut adalah linear terhadap fitur-fitur input.
 
 %masukan rumus logistic regression untuk pemodelan
@@ -159,6 +160,10 @@ di mana:
 \subsection{Chi-Squared Test}
 % Buat tinjauan pustaka untuk Chi-Squared Test gunakan refrensi yang relevan
 Chi-Squared Test adalah metode statistik yang digunakan untuk menguji independensi antara dua variabel kategorikal. Uji ini membandingkan frekuensi yang diamati dalam kategori tertentu dengan frekuensi yang diharapkan jika kedua variabel tersebut independen. Chi-Squared Test sering digunakan dalam analisis data untuk menentukan apakah ada hubungan signifikan antara dua variabel.
+
+\newpage
+Chi-Squared Test menghitung nilai statistik Chi-Squared (\( \chi^2 \)) berdasarkan perbedaan antara frekuensi yang diamati (\( O_i \)) dan frekuensi yang diharapkan (\( E_i \)). Rumusnya adalah:
+
 \begin{equation}
     \chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}
 \end{equation}
@@ -190,21 +195,22 @@ di mana:
     \item Jika \( V = 0 \), berarti tidak ada asosiasi antara kedua variabel, sedangkan jika \( V = 1 \), berarti ada asosiasi sempurna.
 \end{itemize}
 
-\subsection{SelectKBest}
-% Buat tinjauan pustaka untuk SelectKBest gunakan refrensi yang relevan
-SelectKBest adalah metode pemilihan fitur yang digunakan untuk memilih sejumlah fitur terbaik dari dataset berdasarkan skor statistik tertentu. Metode ini membantu dalam mengurangi dimensi data dengan memilih fitur-fitur yang paling relevan untuk model, sehingga meningkatkan kinerja dan interpretabilitas model. SelectKBest dapat digunakan dengan berbagai fungsi skor, seperti ANOVA F-value, chi-squared, atau mutual information.
+\subsection{Scikit-learn}
+scikit learn adalah pustaka Python yang menyediakan berbagai algoritma machine learning dan alat untuk analisis data. Pustaka ini dirancang untuk kemudahan penggunaan dan integrasi dengan pustaka lain seperti NumPy dan pandas. scikit-learn mencakup berbagai algoritma untuk klasifikasi, regresi, clustering, dan pengurangan dimensi, serta alat untuk evaluasi model dan pemrosesan data.
 
-Adapun penggunaan SelectKBest harus menggunakan data yang sudah dibagi menjadi data latih dan data uji. Hal ini penting untuk memastikan bahwa fitur yang dipilih tidak bias terhadap data uji, sehingga model yang dibangun dapat generalisasi dengan baik pada data baru.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{gambar/scikitlearn.png}
+    \caption{Dokumentasi scikit-learn}
+    \label{fig:scikit_learn}
+\end{figure}
 
-\begin{equation}
-    \text{Score}(X, y) = \frac{1}{n} \sum_{i=1}^{n} f(X_i, y)
-\end{equation}
-di mana:
-\begin{itemize}
-    \item \( \text{Score}(X, y) \) adalah skor fitur yang dihitung berdasarkan fungsi skor \( f \).
-    \item \( n \) adalah jumlah fitur yang ada.
-    \item \( X_i \) adalah nilai dari fitur ke-i.
-    \item \( y \) adalah label target (kelas) yang ingin diprediksi.
-    \item Fungsi skor \( f \) dapat berupa ANOVA F-value, chi-squared, atau mutual information, tergantung pada jenis data dan tujuan analisis.
-    \item Nilai skor yang lebih tinggi menunjukkan bahwa fitur tersebut lebih relevan untuk memprediksi label target.
-\end{itemize}
+\subsection{Pandas}
+Pandas adalah pustaka Python yang menyediakan struktur data dan alat analisis data yang efisien. Pustaka ini dirancang untuk memudahkan manipulasi dan analisis data, terutama dalam bentuk tabel (DataFrame). Pandas menyediakan berbagai fungsi untuk membaca, menulis, dan memanipulasi data, serta alat untuk melakukan operasi statistik dan agregasi.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{gambar/pandas.png}
+    \caption{Dokumentasi Pandas}
+    \label{fig:pandas}
+\end{figure}

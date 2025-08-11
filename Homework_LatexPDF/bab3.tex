@@ -156,6 +156,8 @@ Saya juga melakukan pengecekan terhadap missing values pada dataset. Dengan meng
 
 Untuk menangani missing values pada kolom TotalCharges, kita bisa menghapus baris yang memiliki missing values tersebut atau mengisi missing values dengan nilai rata-rata atau median dari kolom tersebut. Dalam tugas ini, saya memilih untuk menghapus baris yang memiliki missing values.
 
+\newpage
+
 \begin{lstlisting}[language=Python, caption=Menghapus Missing Values]
 # output
 .....
@@ -339,7 +341,7 @@ Dari Gambar \ref{fig:cramervheatmap} dapat dilihat bahwa terdapat beberapa fitur
 Analisis fitur numerik dilakukan untuk memahami distribusi dari setiap fitur numerik dalam dataset. Kita akan menggunakan visualisasi seperti histogram, lalu melihat heatmap korelasi untuk melihat hubungan antar fitur numerik. Kita juga akan melakukan analisis statistik untuk melihat apakah terdapat outliers pada fitur-fitur numerik.
 
 Pertama-tama, kita akan melihat ukuran pemusatan dari setiap fitur numerik. Kita akan menggunakan .describe() untuk melihat ukuran pemusatan seperti mean, median, dan standar deviasi dari setiap fitur numerik. Dengan begitu kita bisa mendapatkan gambaran umum tentang distribusi dari setiap fitur numerik.
-
+\newpage
 \begin{lstlisting}[language=Python, caption=Ukuran Pemusatan Fitur Numerik]
 # Ukuran pemusatan fitur numerik
         tenure  MonthlyCharges  TotalCharges
@@ -481,4 +483,63 @@ Kita akan melakukan uji chi-square untuk setiap fitur kategorikal yang ada dalam
     \item MultipleLines
 \end{itemize}
 
-Dengan membuang fitur yang tidak relevan, kita akan mendapatkan fitur-fitur yang lebih fokus dan dapat meningkatkan performa model klasifikasi. 
+Dengan membuang fitur yang tidak relevan, kita akan mendapatkan fitur-fitur yang lebih fokus dan dapat meningkatkan performa model klasifikasi. Adapun fitur-fitur yang akan digunakan dalam model klasifikasi adalah sebagai berikut:
+
+\begin{itemize}
+    \item tenure\_group
+    \item is\_married
+    \item InternetService
+    \item OnlineSecurity
+    \item OnlineBackup
+    \item DeviceProtection
+    \item TechSupport
+    \item StreamingTV
+    \item StreamingMovies
+    \item PaperlessBilling
+    \item PaymentMethod
+    \item Contract
+    \item Churn
+\end{itemize}
+
+\subsection{Data Preprocessing}
+Setelah melakukan feature selection, kita akan melakukan data preprocessing untuk mempersiapkan data sebelum digunakan dalam model klasifikasi. Data preprocessing adalah proses membersihkan dan memformat data agar siap digunakan dalam model klasifikasi. Adapun jenis preprocessing yang akan dilakukan akan tergantung pada jenis data yang ada dalam dataset. Kita akan melakukan preprocessing untuk fitur kategorikal.
+
+\subsubsection{Preprocessing Fitur Kategorikal}
+Agar data kategorikal dapat digunakan dalam model klasifikasi, kita perlu mengubah data kategorikal menjadi data numerik. Kita akan menggunakan teknik one-hot encoding untuk mengubah data kategorikal menjadi data numerik. One-hot encoding adalah teknik yang mengubah setiap kategori menjadi kolom baru dengan nilai 0 atau 1. Adapun fitur yang cocok untuk dilakukan one-hot encoding adalah fitur kategorikal yang memiliki lebih dari 2 kategori. Kita akan menggunakan pd.get\_dummies() untuk melakukan one-hot encoding pada fitur kategorikal.
+\begin{lstlisting}[language=Python, caption=Preprocessing Fitur Kategorikal]
+# Preprocessing fitur kategorikal setelah data di split
+
+X_train = pd.get_dummies(X_train, columns=['tenure_group', 'is_
+married', 'InternetService', 'OnlineSecurity',
+ 'OnlineBackup', 'DeviceProtection', 'TechSupport'
+ , 'StreamingTV', 'StreamingMovies', 'PaperlessBill
+ing', 'PaymentMethod', 'Contract'], drop_first=True)
+
+X_test = pd.get_dummies(X_test, columns=['tenure_group', 
+'is_married', 'InternetService', 'OnlineSecurity',
+ 'OnlineBackup', 'DeviceProtection', 'TechSupport',
+  'StreamingTV', 'StreamingMovies', 'PaperlessBilling',
+   'PaymentMethod', 'Contract'], drop_first=True)
+
+# Menyelaraskan kolom pada X_test dengan X_train
+X_test = X_test.reindex(columns=X_train.columns, fill_value=0)
+\end{lstlisting}
+
+Setelah melakukan one-hot encoding, kita akan mendapatkan fitur-fitur baru yang merupakan hasil dari one-hot encoding. Adapun untuk fitur fitur yang hanya terdiri dari 2 kategori seperti is\_married, kita akan mengubahnya menjadi 0 dan 1. Fitur ini akan diubah menjadi numerik dengan cara mengubah nilai "Yes" menjadi 1 dan "No" menjadi 0. Dengan begitu kita akan mendapatkan fitur-fitur yang siap digunakan dalam model klasifikasi. Gambar \ref{fig:one_hot_encoding} menunjukkan hasil dari preprocessing pada fitur kategorikal.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{gambar/onehotencoding.png}
+    \caption{Hasil One-Hot Encoding Fitur Kategorikal}
+    \label{fig:one_hot_encoding}
+\end{figure}
+
+Setelah melakukan preprocessing pada fitur kategorikal, kita akan mendapatkan data yang siap digunakan dalam model klasifikasi. Namun sebelum itu kita juga perlu melakukan preprocessing pada fitur numerik.
+
+\newpage
+\subsubsection{Preprocessing Fitur Numerik}
+Untuk fitur numerik, kita hanya memiliki 1 fitur yang perlu dilakukan preprocessing yaitu fitur MonthlyCharges. Namun karena ini adalah satu satunya fitur numerik yang ada dalam dataset, saya memutuskan untuk tidak melakukan preprocessing pada fitur ini. Kita akan menggunakan fitur ini apa adanya tanpa melakukan scaling atau normalisasi. Hal ini karena fitur ini merupakan satu satunya fitur numerik sehingga tidak ada fitur lain yang perlu diselaraskan dengan fitur ini. 
+
+Selain itu kita juga tidak perlu melakukan transformasi log pada fitur ini karena fitur ini sudah memiliki distribusi yang cenderung normal. Sehingga kita akan menggunakan fitur MonthlyCharges apa adanya tanpa melakukan preprocessing.
+
+Setelah semua siap kita akan lanjut ke tahap selanjutnya yaitu membangun model klasifikasi. Kita akan menggunakan model klasifikasi yang sudah umum digunakan seperti Logistic Regression, Decision Tree, Random Forest, dan XGBoost. Kita akan membandingkan performa dari setiap model untuk memilih model yang terbaik.
