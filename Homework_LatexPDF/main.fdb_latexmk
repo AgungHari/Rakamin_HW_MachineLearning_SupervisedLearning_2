@@ -1,8 +1,8 @@
 # Fdb version 4
-["pdflatex"] 1754975186.14188 "d:/Rakamin_SupervisedLearning2/Homework_LatexPDF/main.tex" "main.pdf" "main" 1754975189.491 0
+["pdflatex"] 1754979453.5586 "d:/Rakamin_SupervisedLearning2/Homework_LatexPDF/main.tex" "main.pdf" "main" 1754979457.06587 0
   "bab1.tex" 1754930494 2583 d97e2da9ccd2529acf0f1c164be4842b ""
   "bab2.tex" 1754930482 16727 06ba01a5314f83f5a0d1cf598320accb ""
-  "bab3.tex" 1754930471 46096 0a7b818deae18a7a43f2cc5c830b21d3 ""
+  "bab3.tex" 1754979431 46096 0a7b818deae18a7a43f2cc5c830b21d3 ""
   "bab4.tex" 1754975181 88048 961b798c2a7ea9fefce7d40d0611b089 ""
   "bab5.tex" 1754975146 5765 115583df2fb0a07b517cb754ade1cea8 ""
   "c:/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1718771087 2900 1537cc8184ad1792082cd229ecc269f4 ""
@@ -109,7 +109,7 @@
   "c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1718776259 5528846 47cdb80fb017a8505c1f8b75ba228bf0 ""
   "c:/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt" 1718776444 8238167 78694efa6f8812ebdd7fb412808e0faf ""
   "c:/texlive/2024/texmf.cnf" 1718776229 713 e69b156964470283e0530f5060668171 ""
-  "d:/Rakamin_SupervisedLearning2/Homework_LatexPDF/main.tex" 1754970385 1146 91cb279d4bd4e8841c75c7d1e6ce2d37 ""
+  "d:/Rakamin_SupervisedLearning2/Homework_LatexPDF/main.tex" 1754979447 1146 91cb279d4bd4e8841c75c7d1e6ce2d37 ""
   "gambar/bestdt.png" 1754929423 18200 e28a8aec2616130102ecbca76c6b9261 ""
   "gambar/bestlog.png" 1754898101 19828 537ed9420e6123809a8416458a685f3d ""
   "gambar/bestrffix.png" 1754973069 19911 070a68b913bb6fc5a3d4e79ef6d7f4d1 ""
@@ -134,9 +134,9 @@
   "gambar/tenureboxplot.png" 1754803861 17607 6f474967c6c23247d815554ce036b220 ""
   "gambar/xgboost.png" 1754966772 18626 94620721f42d8d8bc510176799e538ff ""
   "gambar/xgboosttuned.png" 1754968956 18595 b5caef12a740368ae0c691c3812dba99 ""
-  "main.aux" 1754975189 21681 1ca8a3c6f47581b4ac228f641ef8b11b "pdflatex"
-  "main.out" 1754975189 14615 dd057caf940214872802369db82b5247 "pdflatex"
-  "main.tex" 1754970385 1146 91cb279d4bd4e8841c75c7d1e6ce2d37 ""
+  "main.aux" 1754979456 21681 1ca8a3c6f47581b4ac228f641ef8b11b "pdflatex"
+  "main.out" 1754979456 14615 dd057caf940214872802369db82b5247 "pdflatex"
+  "main.tex" 1754979447 1146 91cb279d4bd4e8841c75c7d1e6ce2d37 ""
   (generated)
   "main.aux"
   "main.log"
