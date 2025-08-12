@@ -1,5 +1,44 @@
 \newpage
 \section{Kesimpulan dan Saran}
+Adapun 3 jenis kesimpulan yang bisa diambil dari tugas ini, diantaranya 
+kesimpulan pada proses EDA, kesimpulan pada evaluasi model, dan kesimpulan bisnis. 
 
-\subsubsection{Hasil Decision Tree tanpa hyperparameter tuning}
-Berikut adalah hasil confusion matrix dari model Decision Tree yang telah diuji pada data uji, Gambar \ref{fig:decision_tree} menunjukkan confusion matrix yang diperoleh dari model Decision Tree tanpa melakukan hyperparameter tuning. Sehingga baseline model Decision Tree ini akan menjadi acuan untuk perbandingan dengan model-model lainnya yang akan diuji pada tahap selanjutnya. Namun kita tetap perlu menambahkan beberapa setting manual karena pada bab sebelumnya kita menemukan imbalance data pada dataset yang digunakan. Oleh karena itu, kita perlu mengatur beberapa parameter pada model Decision Tree untuk mengatasi masalah tersebut. Berikut adalah parameter yang digunakan pada model Decision Tree:
+\subsection{Kesimpulan EDA}
+Berikut adalah kesimpulan dari tahap EDA :
+\begin{enumerate}
+    \item Pelanggan dengan kontrak "Month-to-month" cenderung lebih sering berhenti berlangganan dibandingkan dengan pelanggan yang bekerja dengan kontrak tahunan atau dua tahunan.
+    \item Layanan TechSupport dapat membantu mengurangi tingkat churn pelanggan.
+    \item Layanan OnlineSecurity dapat membantu mengurangi tingkat churn pelanggan.
+    \item Pelanggan yang menggunakan layanan internet "Fiber optic" cenderung lebih sering berhenti berlangganan dibandingkan dengan pelanggan yang menggunakan layanan DSL atau tidak menggunakan layanan internet.
+    \item Pelanggan yang menggunakan metode pembayaran "Electronic check" cenderung lebih sering berhenti berlangganan dibandingkan dengan pelanggan yang menggunakan metode pembayaran lainnya.
+    \item Pelanggan dengan lama berlangganan yang lebih lama cenderung memiliki total biaya yang lebih tinggi.
+    \item Pelanggan dengan biaya bulanan yang lebih tinggi cenderung memiliki total biaya yang lebih tinggi.
+    \item Terdapat segmen highend pada fitur TotalCharges menandakan adanya pelanggan yang memiliki total biaya yang sangat tinggi.
+    \item Pelanggan dengan biaya bulanan yang lebih tinggi cenderung untuk churn.
+\end{enumerate}
+
+\subsection{Kesimpulan Evaluasi Model}
+Berikut adalah kesimpulan dari tahap evaluasi model :
+\begin{enumerate}
+    \item \textbf{Model XGBoost} menunjukkan performa terbaik dalam hal recall, yaitu 94.9\%, yang menunjukkan bahwa model ini sangat efektif dalam mendeteksi pelanggan yang berpotensi churn. Selain itu, nilai ROC-AUC juga tinggi, yaitu 0.8276, menunjukkan kemampuan model dalam membedakan antara pelanggan yang churn dan tidak churn.
+    \item \textbf{Model Decision Tree} mengalami peningkatan recall yang signifikan setelah hyperparameter tuning, yaitu dari 58.8\% menjadi 87.2\%. Meskipun nilai ROC-AUC-nya tidak setinggi XGBoost, peningkatan ini menunjukkan bahwa model ini dapat dioptimasi lebih lanjut untuk meningkatkan performanya.
+    \item \textbf{Model Random Forest} juga menunjukkan peningkatan recall yang signifikan, yaitu dari 53.5\% menjadi 78.9\%. Nilai ROC-AUC-nya juga meningkat, meskipun tidak sebesar Decision Tree.
+    \item \textbf{Model Logistic Regression} memiliki performa yang stabil dengan recall sekitar 80.4\% setelah hyperparameter tuning, namun tidak mengalami peningkatan yang signifikan dibandingkan model lainnya.
+    \item Secara keseluruhan, model XGBoost adalah yang paling unggul dalam hal deteksi churn, diikuti oleh Decision Tree dan Random Forest. Logistic Regression memiliki performa yang baik, namun tidak sebaik model-model lainnya dalam konteks ini.
+    \item Hyperparameter tuning terbukti efektif dalam meningkatkan performa model, terutama pada model Decision Tree, Random Forest, dan XGBoost. Hal ini menunjukkan pentingnya proses tuning untuk mendapatkan model yang optimal dalam konteks prediksi churn.
+    \item Meskipun Logistic Regression memiliki performa yang baik, model ini mungkin tidak cukup kompleks untuk menangkap pola yang lebih rumit dalam data churn. Oleh karena itu, model berbasis pohon keputusan seperti Decision Tree, Random Forest, dan XGBoost lebih unggul dalam konteks ini.
+    \item Metode boosting (XGBoost) secara konsisten memberikan kinerja recall yang lebih tinggi dibandingkan metode bagging (Random Forest) maupun model tunggal (Decision Tree, Logistic Regression). Hal ini konsisten dengan karakteristik boosting yang fokus memperbaiki kesalahan prediksi sebelumnya, sehingga lebih efektif dalam mendeteksi pelanggan churn.
+\end{enumerate}
+
+\subsection{Kesimpulan Bisnis}
+Berikut adalah kesimpulan bisnis yang dapat diambil dari hasil analisis ini :
+
+\begin{enumerate}
+    \item \textbf{Identifikasi Pelanggan Berisiko Churn}: Model XGBoost yang telah dioptimasi dapat digunakan untuk mengidentifikasi pelanggan yang berisiko tinggi untuk churn. Dengan mengetahui pelanggan mana yang berpotensi churn, perusahaan dapat mengambil tindakan proaktif untuk mempertahankan mereka.
+    \item \textbf{Strategi Pemasaran yang Lebih Efektif}: Dengan informasi tentang pelanggan yang berisiko churn, perusahaan dapat merancang strategi pemasaran yang lebih efektif, seperti menawarkan diskon atau promosi khusus kepada pelanggan tersebut untuk mendorong mereka tetap menggunakan layanan.
+    \item \textbf{Peningkatan Layanan Pelanggan}: Hasil analisis ini juga dapat digunakan untuk meningkatkan layanan pelanggan. Perusahaan dapat fokus pada peningkatan pengalaman pelanggan bagi mereka yang berisiko churn, sehingga dapat mengurangi tingkat churn.
+    \item \textbf{Pengalokasian Sumber Daya yang Lebih Baik}: Dengan mengetahui pelanggan mana yang berisiko churn, perusahaan dapat mengalokasikan sumber daya dengan lebih efisien. Misalnya, perusahaan dapat mengarahkan tim layanan pelanggan untuk fokus pada pelanggan yang berisiko tinggi.
+    \item \textbf{Peningkatan Retensi Pelanggan}: Dengan menerapkan strategi berdasarkan hasil analisis ini, perusahaan diharapkan dapat meningkatkan retensi pelanggan dan mengurangi tingkat churn. Hal ini akan berdampak positif pada pendapatan dan profitabilitas perusahaan.
+    \item \textbf{Pengembangan Produk dan Layanan Baru}: Hasil analisis ini juga dapat memberikan wawasan tentang kebutuhan dan preferensi pelanggan. Dengan memahami faktor-faktor yang mempengaruhi churn, perusahaan dapat mengembangkan produk atau layanan baru yang lebih sesuai dengan kebutuhan pelanggan.
+\end{enumerate}
+

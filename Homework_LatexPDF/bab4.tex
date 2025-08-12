@@ -434,6 +434,625 @@ Namun, akurasi dan presisi model mengalami penurunan, yaitu dari 72.4\% menjadi 
 
 Meskipun akurasi menurun, peningkatan recall menunjukkan bahwa model ini lebih fokus pada deteksi pelanggan churn, yang merupakan prioritas utama dalam konteks ini. Nilai ROC-AUC juga meningkat dari 0.6866 menjadi 0.7880, menunjukkan bahwa model Decision Tree yang telah dioptimasi lebih baik dalam membedakan antara pelanggan yang churn dan tidak churn.
 
+\subsection{Pengujian Model Random Forest}
+Pengujian model Random Forest dilakukan dengan menggunakan data uji yang telah disiapkan. Model ini dilatih pada data latih dan kemudian diuji pada data uji untuk mengevaluasi performanya. Hasil dari pengujian ini akan memberikan gambaran tentang seberapa baik model dalam memprediksi churn pelanggan.
+
+Setelah dilakukan pengujian model Random Forest, diperoleh hasil confusion matrix yang merepresentasikan performa model dalam mengklasifikasikan data uji. Confusion matrix ini menunjukkan jumlah prediksi yang benar dan salah untuk masing-masing kelas (churn dan tidak churn). Dari confusion matrix, dapat dihitung beberapa metrik evaluasi seperti akurasi, presisi, recall, dan F1-score.
+
+Pengujian model Random Forest dipilih karena metode ini merupakan salah satu teknik ensemble yang menggunakan pendekatan bagging. Random Forest menggabungkan beberapa pohon keputusan untuk meningkatkan akurasi dan mengurangi risiko overfitting. Dengan menggunakan teknik ini, model dapat memanfaatkan kekuatan dari beberapa pohon keputusan yang berbeda, sehingga menghasilkan prediksi yang lebih stabil dan akurat.
+
+Perbandingan antara bagging dan boosting menjadi penting dalam konteks ini. Bagging, seperti yang diterapkan dalam Random Forest, berfokus pada pengurangan varians dengan membangun model independen secara paralel. Di sisi lain, boosting berusaha untuk mengurangi bias dengan membangun model secara berurutan, di mana setiap model baru berusaha untuk memperbaiki kesalahan dari model sebelumnya. Dengan membandingkan kedua pendekatan ini, kita dapat mengevaluasi kelebihan dan kekurangan masing-masing metode dalam konteks prediksi churn pelanggan.
+
+Dengan demikian, pengujian Random Forest tidak hanya memberikan wawasan tentang performa model ini, tetapi juga memungkinkan kita untuk memahami perbedaan mendasar antara teknik bagging dan boosting dalam meningkatkan akurasi prediksi.
+
+\subsubsection{Hasil Random Forest tanpa hyperparameter tuning}
+
+Berikut adalah hasil confusion matrix dari model Random Forest yang telah diuji pada data uji, Gambar \ref{randomf} menunjukan confusion matrix yang diperoleh dari model Random Forest tanpa melakukan hyperparameter tuning. Sehingga model ini akan menjadi acuan untuk perbandingan dengan model-model lainnya yang akan diuji pada tahap selanjutnya. Namun kita tetap perlu menambahkan beberapa setting manual karena pada bab sebelumnya kita menemukan imbalance data pada dataset yang digunakan. Oleh karena itu, kita perlu mengatur beberapa parameter pada model Random Forest untuk mengatasi masalah tersebut. Parameter yang digunakan adalah sebagai berikut:
+
+% # Jumlah pohon (trees) yang dibangun dalam ensemble
+% # Default = 100, makin banyak pohon → prediksi lebih stabil tapi waktu training lebih lama
+% n_estimators=100,
+
+% # Fungsi impurity untuk tiap tree (gini atau entropy/log_loss)
+% criterion="gini",
+
+% # Membatasi kedalaman pohon (None = pohon tumbuh penuh)
+% max_depth=None,
+
+% # Jumlah fitur yang dipakai saat mencari split terbaik (default: 'sqrt' untuk klasifikasi)
+% max_features="sqrt",
+
+% # Class weight untuk menangani imbalance
+% class_weight="balanced",
+
+% # Random seed agar hasil reproducible
+% random_state=42,
+
+% # Gunakan semua core CPU untuk mempercepat training
+% n_jobs=-1
+
+\begin{itemize}
+    \item \texttt{n\_estimators=100}: Jumlah pohon (trees) yang dibangun dalam ensemble. Defaultnya adalah 100, semakin banyak pohon yang digunakan, prediksi menjadi lebih stabil tetapi waktu training juga lebih lama.
+    \item \texttt{criterion="gini"}: Fungsi impurity yang digunakan untuk mengukur kualitas split pada setiap pohon. Alternatifnya adalah \texttt{"entropy"} atau \texttt{"log\_loss"}.
+    \item \texttt{max\_depth=None}: Kedalaman maksimum pohon tidak dibatasi (default), sehingga pohon akan tumbuh hingga semua daun bersifat \textit{pure} atau tidak dapat di-split lagi. Hal ini berpotensi menimbulkan \textit{overfitting}.
+    \item \texttt{max\_features="sqrt"}: Jumlah fitur yang dipertimbangkan pada setiap split. Defaultnya adalah \texttt{"sqrt"} untuk klasifikasi, yang berarti hanya menggunakan akar kuadrat dari jumlah total fitur.
+    \item \texttt{class\_weight="balanced"}: Memberikan bobot kelas secara otomatis yang proporsional terhadap kebalikannya dari frekuensi kelas, untuk mengatasi ketidakseimbangan kelas pada dataset.
+    \item \texttt{random\_state=42}: Menetapkan nilai \textit{seed} untuk memastikan hasil dapat direproduksi.
+    \item \texttt{n\_jobs=-1}: Menggunakan semua core CPU yang tersedia untuk mempercepat proses training.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{gambar/randomf.png}
+    \caption{Confusion Matrix Model Random Forest}
+    \label{randomf}
+\end{figure}
+
+Dari gambar \ref{randomf} kita bisa identifikasi performa model Random Forest dalam mengklasifikasikan data uji. Confusion matrix ini memberikan informasi tentang jumlah prediksi yang benar dan salah untuk masing-masing kelas (churn dan tidak churn). Detailnya adalah sebagai berikut:
+
+\begin{itemize}
+    \item True Negative (TN): 853 (Pelanggan yang benar-benar tidak churn dan diprediksi tidak churn)
+    \item False Positive (FP): 180 (Pelanggan yang tidak churn, tetapi diprediksi churn)
+    \item False Negative (FN): 174 (Pelanggan yang churn, tetapi diprediksi tidak churn)
+    \item True Positive (TP): 200 (Pelanggan yang benar-benar churn dan diprediksi churn)
+\end{itemize}
+
+Setelah mendapatkan confusion matrix, kita dapat menghitung beberapa metrik evaluasi untuk model Random Forest. Metrik yang umum digunakan adalah akurasi, presisi, recall, dan F1-score.
+
+\subsubsection*{Akurasi}
+Akurasi adalah proporsi prediksi yang benar dari total prediksi yang dilakukan oleh model. Berikut adalah perhitungan akurasi model Random Forest:
+\begin{equation}
+    \text{Akurasi} = \frac{TP + TN}{TP + TN + FP + FN} = \frac{200 + 853}{200 + 853 + 180 + 174} = \frac{1053}{1407} \approx 0.749
+\end{equation}
+Akurasi model Random Forest adalah sekitar 74.9\%. Ini menunjukkan bahwa model ini mampu memprediksi dengan benar sekitar 74.9\% dari total data uji yang diberikan.
+
+\subsubsection*{Precision}
+Precision adalah proporsi prediksi positif yang benar dari total prediksi positif yang dilakukan oleh model. Berikut adalah perhitungan presisi model Random Forest:
+\begin{equation}
+    \text{Presisi} = \frac{TP}{TP + FP} = \frac{200}{200 + 180} = \frac{200}{380} \approx 0.526
+\end{equation}
+Presisi model Random Forest adalah sekitar 52.6\%. Ini menunjukkan bahwa dari semua pelanggan yang diprediksi churn, hanya sekitar 52.6\% yang benar-benar churn. Hal ini mengindikasikan bahwa model ini masih menghasilkan cukup banyak false positive, yaitu pelanggan yang diprediksi churn padahal sebenarnya tidak.
+
+\subsubsection*{Recall}
+Recall adalah proporsi prediksi positif yang benar dari total aktual positif. Berikut adalah perhitungan recall model Random Forest:
+\begin{equation}
+    \text{Recall} = \frac{TP}{TP + FN} = \frac{200}{200 + 174} = \frac{200}{374} \approx 0.535
+\end{equation}
+Recall model Random Forest adalah sekitar 53.5\%. Ini menunjukkan bahwa model ini mampu menangkap sekitar 53.5\% dari pelanggan yang sebenarnya churn, namun masih ada 46.5\% pelanggan churn yang tidak terdeteksi oleh model.
+
+\subsubsection*{F1-score}
+F1-score adalah rata-rata harmonis dari presisi dan recall. F1-score memberikan gambaran yang lebih baik tentang keseimbangan antara presisi dan recall. Berikut adalah perhitungan F1-score model Random Forest:
+\begin{equation}
+    \text{F1-score} = 2 \cdot \frac{\text{Presisi} \cdot \text{Recall}}{\text{Presisi} + \text{Recall}} = 2 \cdot \frac{0.526 \cdot 0.535}{0.526 + 0.535} \approx 0.530
+\end{equation}
+F1-score model Random Forest adalah sekitar 53.0\%. Ini menunjukkan bahwa model ini memiliki keseimbangan yang cukup baik antara presisi dan recall, meskipun masih ada ruang untuk perbaikan, terutama dalam hal menangkap pelanggan yang churn.
+
+\subsubsection*{ROC-AUC}
+ROC-AUC (Receiver Operating Characteristic - Area Under the Curve) adalah metrik yang digunakan untuk mengukur kemampuan model dalam membedakan antara kelas positif dan negatif. Adapun nilai ROC-AUC yang didapatkan dari model Random Forest adalah 0.7782249923642782. Nilai ini menunjukkan bahwa model memiliki kemampuan yang cukup baik dalam membedakan antara pelanggan yang churn dan tidak churn.
+
+Nilai ROC-AUC berkisar antara 0 hingga 1, di mana nilai 0.5 menunjukkan model yang tidak lebih baik dari tebakan acak, sedangkan nilai 1 menunjukkan model yang sempurna. Dengan nilai 0.7782249923642782, model Random Forest ini menunjukkan performa yang cukup baik dalam memprediksi churn pelanggan.
+
+\subsubsection{Hasil Random Forest dengan hyperparameter tuning}
+Setelah memperoleh hasil dari model Random Forest tanpa hyperparameter tuning, langkah selanjutnya adalah melakukan \textit{hyperparameter tuning} untuk meningkatkan performa model, khususnya dalam hal \textit{recall} yang menjadi fokus utama pada kasus prediksi \textit{churn}. Proses \textit{tuning} dilakukan menggunakan \texttt{RandomizedSearchCV} dengan skema \textit{cross-validation}, di mana metrik utama yang digunakan sebagai acuan pemilihan model terbaik adalah \textit{recall}.
+
+Ruang pencarian (\textit{search space}) untuk parameter model Random Forest dirancang dengan mempertimbangkan keseimbangan antara kompleksitas model dan risiko \textit{overfitting}, yaitu sebagai berikut:
+
+Ruang pencarian (\textit{search space}) yang digunakan adalah sebagai berikut:
+% param_dist = {
+%     "n_estimators": randint(200, 801),
+%     "max_depth": randint(5, 31),
+%     "min_samples_split": randint(2, 51),
+%     "min_samples_leaf": randint(1, 21),
+%     "max_features": ["sqrt", "log2"],     # <- jangan None
+%     "class_weight": ["balanced", "balanced_subsample"],
+%     "bootstrap": [True],                  # <- wajib True
+%     "criterion": ["gini", "entropy", "log_loss"],
+%     "ccp_alpha": uniform(0.0, 0.01),
+% }
+
+%buat tabel ruang pencarian
+\begin{table}[H]
+    \centering
+    \caption{Ruang Pencarian Hyperparameter Random Forest}
+    \label{tab:search_space_random_forest}
+    \begin{tabular}{|l|l|}
+        \hline
+        \textbf{Hyperparameter} & \textbf{Nilai yang diuji} \\ \hline
+        n\_estimators & 200, 201, ..., 800 \\ \hline
+        max\_depth & 5, 6, ..., 30 \\ \hline
+        min\_samples\_split & 2, 3, ..., 50 \\ \hline
+        min\_samples\_leaf & 1, 2, ..., 20 \\ \hline
+        max\_features & \texttt{"sqrt"}, \texttt{"log2"} \\ \hline
+        class\_weight & \texttt{"balanced"}, \texttt{"balanced\_subsample"} \\ \hline
+        bootstrap & True \\ \hline
+        criterion & \texttt{"gini"}, \texttt{"entropy"}, \texttt{"log\_loss"} \\ \hline
+        ccp\_alpha & [0.0, 0.01] \\ \hline
+    \end{tabular}
+\end{table}
+
+Dari tabel di atas, 80 iterasi \texttt{RandomizedSearchCV} dilakukan untuk mencari kombinasi hyperparameter yang optimal. Proses ini bertujuan untuk menemukan konfigurasi yang memberikan nilai \textit{recall} tertinggi, sehingga model dapat lebih efektif dalam mendeteksi pelanggan yang berpotensi churn.
+
+Setelah dilakukan \texttt{RandomizedSearchCV}, diperoleh confusion matrix dari model Random Forest yang telah dioptimasi hyperparameternya, seperti pada Gambar \ref{fig:random_forest_tuned}. Confusion matrix ini menunjukkan performa model dalam mengklasifikasikan data uji setelah proses tuning.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{gambar/bestrffix.png}
+    \caption{Confusion Matrix Model Random Forest dengan Hyperparameter Tuning}
+    \label{fig:random_forest_tuned}
+\end{figure}
+
+Dari gambar \ref{fig:random_forest_tuned}, kita dapat mengidentifikasi performa model Random Forest yang telah dioptimasi hyperparameternya. Confusion matrix ini memberikan informasi tentang jumlah prediksi yang benar dan salah untuk masing-masing kelas (churn dan tidak churn). Detailnya adalah sebagai berikut:
+
+\begin{itemize}
+    \item True Negative (TN): 701 (Pelanggan yang benar-benar tidak churn dan diprediksi tidak churn)
+    \item False Positive (FP): 332 (Pelanggan yang tidak churn, tetapi diprediksi churn)
+    \item False Negative (FN): 79 (Pelanggan yang churn, tetapi diprediksi tidak churn)
+    \item True Positive (TP): 295 (Pelanggan yang benar-benar churn dan diprediksi churn)
+\end{itemize}
+
+Setelah mendapatkan confusion matrix, kita dapat menghitung beberapa metrik evaluasi untuk model Random Forest yang telah dioptimasi hyperparameternya. Metrik yang umum digunakan adalah akurasi, presisi, recall, dan F1-score.
+
+\subsubsection*{Akurasi}
+Akurasi adalah proporsi prediksi yang benar dari total prediksi yang dilakukan oleh model. Berikut adalah perhitungan akurasi model Random Forest:
+\begin{equation}
+    \text{Akurasi} = \frac{TP + TN}{TP + TN + FP + FN} = \frac{295 + 701}{295 + 701 + 332 + 79} = \frac{996}{1407} \approx 0.708
+\end{equation}
+Akurasi model Random Forest adalah sekitar 70.8\%. Ini menunjukkan bahwa model ini mampu memprediksi dengan benar sekitar 70.8\% dari total data uji yang diberikan.
+
+\subsubsection*{Precision}
+Precision adalah proporsi prediksi positif yang benar dari total prediksi positif yang dilakukan oleh model. Berikut adalah perhitungan presisi model Random Forest:
+\begin{equation}
+    \text{Presisi} = \frac{TP}{TP + FP} = \frac{295}{295 + 332} = \frac{295}{627} \approx 0.471
+\end{equation}
+Presisi model Random Forest adalah sekitar 47.1\%. Ini menunjukkan bahwa dari semua pelanggan yang diprediksi churn, hanya sekitar 47.1\% yang benar-benar churn. Hal ini mengindikasikan bahwa model ini masih menghasilkan cukup banyak false positive, yaitu pelanggan yang diprediksi churn padahal sebenarnya tidak.
+
+\subsubsection*{Recall}
+Recall adalah proporsi prediksi positif yang benar dari total aktual positif. Berikut adalah perhitungan recall model Random Forest:
+\begin{equation}
+    \text{Recall} = \frac{TP}{TP + FN} = \frac{295}{295 + 79} = \frac{295}{374} \approx 0.789
+\end{equation}
+Recall model Random Forest adalah sekitar 78.9\%. Ini menunjukkan bahwa model ini mampu menangkap sekitar 78.9\% dari pelanggan yang sebenarnya churn, sehingga cukup efektif dalam mendeteksi churn meskipun masih ada 21.1\% yang terlewat.
+
+\subsubsection*{F1-score}
+F1-score adalah rata-rata harmonis dari presisi dan recall. F1-score memberikan gambaran yang lebih baik tentang keseimbangan antara presisi dan recall. Berikut adalah perhitungan F1-score model Random Forest:
+\begin{equation}
+    \text{F1-score} = 2 \cdot \frac{\text{Presisi} \cdot \text{Recall}}{\text{Presisi} + \text{Recall}} = 2 \cdot \frac{0.471 \cdot 0.789}{0.471 + 0.789} \approx 0.589
+\end{equation}
+F1-score model Random Forest adalah sekitar 58.9\%. Ini menunjukkan bahwa model ini memiliki keseimbangan yang cukup baik antara presisi dan recall, dengan keunggulan utama pada kemampuannya menangkap pelanggan churn.
+
+\subsubsection*{ROC-AUC}
+ROC-AUC (Receiver Operating Characteristic - Area Under the Curve) adalah metrik yang digunakan untuk mengukur kemampuan model dalam membedakan antara kelas positif dan negatif. Adapun nilai ROC-AUC yang didapatkan dari model Random Forest yang telah dioptimasi hyperparameternya adalah 0.8216. Nilai ini menunjukkan bahwa model memiliki kemampuan yang cukup baik dalam membedakan antara pelanggan yang churn dan tidak churn.
+
+Nilai ROC-AUC berkisar antara 0 hingga 1, di mana nilai 0.5 menunjukkan model yang tidak lebih baik dari tebakan acak, sedangkan nilai 1 menunjukkan model yang sempurna. Dengan nilai 0.8216, model Random Forest yang telah dioptimasi ini menunjukkan performa yang cukup baik dalam memprediksi churn pelanggan.
+
+\subsubsection{Parameter Terbaik}
+Nilai-nilai di atas diperoleh dari proses \texttt{RandomizedSearchCV} yang telah dilakukan sebelumnya. Adapun kombinasi hyperparameter untuk mendapatkan hasil di atas ditunjukkan pada Tabel \ref{tab:best_params_random_forest}. Kombinasi ini merupakan hasil terbaik yang diperoleh dari proses tuning hyperparameter, yang bertujuan untuk meningkatkan performa model dalam mendeteksi pelanggan yang churn.
+
+% Fitting 5 folds for each of 80 candidates, totalling 400 fits
+% Best params (berdasarkan Recall CV):
+% {'bootstrap': True, 'ccp_alpha': np.float64(0.006963042728397884), 'class_weight': 'balanced', 'criterion': 'gini', 'max_depth': 9, 'max_features': 'sqrt', 'min_samples_leaf': 17, 'min_samples_split': 50, 'n_estimators': 201}
+
+\begin{table}[H]
+    \centering
+    \caption{Kombinasi Hyperparameter Terbaik (RandomizedSearchCV)}
+    \label{tab:best_params_random_forest}
+    \begin{tabular}{|l|l|}
+        \hline
+        \textbf{Hyperparameter} & \textbf{Nilai Terbaik} \\ \hline
+        n\_estimators & 201 \\ \hline
+        max\_depth & 9 \\ \hline
+        min\_samples\_split & 50 \\ \hline
+        min\_samples\_leaf & 17 \\ \hline
+        max\_features & sqrt \\ \hline
+        class\_weight & balanced \\ \hline
+        ccp\_alpha & 0.006963042728397884 \\ \hline
+        criterion & gini \\ \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{Perbandingan Hasil Random Forest Sebelum dan Sesudah Hyperparameter Tuning}
+Setelah melakukan hyperparameter tuning, kita dapat membandingkan hasil model Random Forest sebelum dan sesudah tuning. Tabel \ref{tab:comparison_random_forest} menunjukkan perbandingan metrik evaluasi antara model baseline dan model yang telah dioptimasi hyperparameter.
+
+\begin{table}[H]
+    \centering
+    \caption{Perbandingan Hasil Model Random Forest Sebelum dan Sesudah Hyperparameter Tuning}
+    \label{tab:comparison_random_forest}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        \textbf{Metrik} & \textbf{Sebelum Tuning} & \textbf{Setelah Tuning} \\ \hline
+        Akurasi & 74.9\% & 70.8\% \\ \hline
+        Presisi & 52.6\% & 47.1\% \\ \hline
+        Recall & 53.5\% & 78.9\% \\ \hline
+        F1-score & 53.0\% & 58.9\% \\ \hline
+        ROC-AUC & 0.7782 & 0.8216 \\ \hline
+    \end{tabular}
+\end{table}
+Dari tabel \ref{tab:comparison_random_forest}, dapat dilihat bahwa setelah melakukan hyperparameter tuning, model Random Forest mengalami peningkatan yang signifikan pada metrik recall, yaitu dari 53.5\% menjadi 87.2\%. Hal ini menunjukkan bahwa model yang telah dioptimasi lebih baik dalam mendeteksi pelanggan yang berpotensi churn.
+
+Namun, akurasi dan presisi model mengalami penurunan, yaitu dari 74.9\% menjadi 63.6\% untuk akurasi dan dari 52.6\% menjadi 41.3\% untuk presisi. Meskipun demikian, peningkatan recall yang signifikan menunjukkan bahwa model ini lebih efektif dalam menangkap pelanggan churn, yang merupakan tujuan utama dari analisis ini.
+
+Meskipun akurasi menurun, peningkatan recall menunjukkan bahwa model ini lebih fokus pada deteksi pelanggan churn, yang merupakan prioritas utama dalam konteks ini. Nilai ROC-AUC juga meningkat dari 0.7782 menjadi 0.7880, menunjukkan bahwa model Random Forest yang telah dioptimasi lebih baik dalam membedakan antara pelanggan yang churn dan tidak churn.
+
+\subsection{Pengujian Model XGBoost}
+Pengujian model XGBoost dilakukan dengan menggunakan data uji yang telah disiapkan. Model ini dilatih pada data latih dan kemudian diuji pada data uji untuk mengevaluasi performanya. Hasil dari pengujian ini akan memberikan gambaran tentang seberapa baik model dalam memprediksi churn pelanggan.
+
+Setelah dilakukan pengujian model XGBoost, diperoleh hasil confusion matrix yang merepresentasikan performa model dalam mengklasifikasikan data uji. Confusion matrix ini menunjukkan jumlah prediksi yang benar dan salah untuk masing-masing kelas (churn dan tidak churn). Dari confusion matrix, dapat dihitung beberapa metrik evaluasi seperti akurasi, presisi, recall, dan F1-score.
+
+Pengujian model XGBoost dipilih karena metode ini merupakan salah satu teknik boosting yang menggunakan pendekatan \textit{gradient boosting}. XGBoost menggabungkan beberapa pohon keputusan secara sekuensial, di mana setiap pohon baru berusaha untuk memperbaiki kesalahan dari pohon sebelumnya. Dengan menggunakan teknik ini, model dapat memanfaatkan kekuatan dari beberapa pohon keputusan yang berbeda, sehingga menghasilkan prediksi yang lebih stabil dan akurat.
+
+Perbandingan antara bagging dan boosting menjadi penting dalam konteks ini. Bagging, seperti yang diterapkan dalam Random Forest, berfokus pada pengurangan varians dengan membangun model independen secara paralel. Di sisi lain, boosting berusaha untuk mengurangi bias dengan membangun model secara berurutan, di mana setiap model baru berusaha untuk memperbaiki kesalahan dari model sebelumnya. Dengan membandingkan kedua pendekatan ini, kita dapat mengevaluasi kelebihan dan kekurangan masing-masing metode dalam konteks prediksi churn pelanggan.
+
+Dengan demikian, pengujian XGBoost tidak hanya memberikan wawasan tentang performa model ini, tetapi juga memungkinkan kita untuk memahami perbedaan mendasar antara teknik bagging dan boosting dalam meningkatkan akurasi prediksi.
+
+\subsubsection{Hasil XGBoost tanpa hyperparameter tuning}
+Berikut adalah hasil confusion matrix dari model XGBoost yang telah diuji pada data uji, Gambar \ref{fig:xgboost} menunjukan confusion matrix yang diperoleh dari model XGBoost tanpa melakukan hyperparameter tuning. Sehingga model ini akan menjadi acuan untuk perbandingan dengan model-model lainnya yang akan diuji pada tahap selanjutnya. Namun kita tetap perlu menambahkan beberapa setting manual karena pada bab sebelumnya kita menemukan imbalance data pada dataset yang digunakan. Oleh karena itu, kita perlu mengatur beberapa parameter pada model XGBoost untuk mengatasi masalah tersebut. Parameter yang digunakan adalah sebagai berikut:
+
+% xgb = XGBClassifier(
+%     # Booster yang digunakan, 'gbtree' paling umum untuk tabular data
+%     booster='gbtree',
+
+%     # Bobot untuk mengatasi imbalance kelas:
+%     # scale_pos_weight = (jumlah negatif / jumlah positif)
+%     scale_pos_weight=3,  # sesuaikan dengan rasio dataset-mu
+
+%     # Seed untuk reprodusibilitas
+%     random_state=42,
+
+%     # Gunakan semua core CPU
+%     n_jobs=-1
+% )
+
+\begin{itemize}
+    \item \texttt{booster='gbtree'}: Booster yang digunakan, 'gbtree' paling umum untuk data tabular.
+    \item \texttt{scale\_pos\_weight=3}: Bobot untuk mengatasi ketidakseimbangan kelas, dihitung sebagai rasio jumlah negatif terhadap jumlah positif.
+    \item \texttt{random\_state=42}: Menetapkan nilai seed untuk memastikan hasil dapat direproduksi.
+    \item \texttt{n\_jobs=-1}: Menggunakan semua core CPU yang tersedia untuk mempercepat proses training.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{gambar/xgboost.png}
+    \caption{Confusion Matrix Model XGBoost}
+    \label{fig:xgboost}
+\end{figure}
+
+Dari gambar \ref{fig:xgboost} kita bisa identifikasi performa model XGBoost dalam mengklasifikasikan data uji. Confusion matrix ini memberikan informasi tentang jumlah prediksi yang benar dan salah untuk masing-masing kelas (churn dan tidak churn). Detailnya adalah sebagai berikut:
+
+\begin{itemize}
+    \item True Negative (TN): 754 (Pelanggan yang benar-benar tidak churn dan diprediksi tidak churn)
+    \item False Positive (FP): 279 (Pelanggan yang tidak churn, tetapi diprediksi churn)
+    \item False Negative (FN): 114 (Pelanggan yang churn, tetapi diprediksi tidak churn)
+    \item True Positive (TP): 260 (Pelanggan yang benar-benar churn dan diprediksi churn)
+\end{itemize}
+
+Setelah mendapatkan confusion matrix, kita dapat menghitung beberapa metrik evaluasi untuk model XGBoost. Metrik yang umum digunakan adalah akurasi, presisi, recall, dan F1-score.
+
+\subsubsection*{Akurasi}
+Akurasi adalah proporsi prediksi yang benar dari total prediksi yang dilakukan oleh model. Berikut adalah perhitungan akurasi model XGBoost:
+\begin{equation}
+    \text{Akurasi} = \frac{TP + TN}{TP + TN + FP + FN} = \frac{260 + 754}{260 + 754 + 279 + 114} = \frac{1014}{1407} \approx 0.720
+\end{equation}
+
+Akurasi model XGBoost adalah sekitar 72.0\%. Ini menunjukkan bahwa model ini mampu memprediksi dengan benar sekitar 72.0\% dari total data uji yang diberikan.
+
+\subsubsection*{Precision}
+Precision adalah proporsi prediksi positif yang benar dari total prediksi positif yang dilakukan oleh model. Berikut adalah perhitungan presisi model XGBoost:
+
+\begin{equation}
+    \text{Presisi} = \frac{TP}{TP + FP} = \frac{260}{260 + 279} = \frac{260}{539} \approx 0.482
+\end{equation}
+
+Presisi model XGBoost adalah sekitar 48.2\%. Ini menunjukkan bahwa dari semua pelanggan yang diprediksi churn, hanya sekitar 48.2\% yang benar-benar churn. Hal ini mengindikasikan bahwa model ini masih menghasilkan cukup banyak false positive, yaitu pelanggan yang diprediksi churn padahal sebenarnya tidak.
+
+\subsubsection*{Recall}
+Recall adalah proporsi prediksi positif yang benar dari total aktual positif. Berikut adalah perhitungan recall model XGBoost:
+
+\begin{equation}
+    \text{Recall} = \frac{TP}{TP + FN} = \frac{260}{260 + 114} = \frac{260}{374} \approx 0.695
+\end{equation}
+
+Recall model XGBoost adalah sekitar 69.5\%. Ini menunjukkan bahwa model ini mampu menangkap sekitar 69.5\% dari pelanggan yang sebenarnya churn, namun masih ada 30.5\% pelanggan churn yang tidak terdeteksi oleh model.
+
+\subsubsection*{F1-score}
+F1-score adalah rata-rata harmonis dari presisi dan recall. F1-score memberikan gambaran yang lebih baik tentang keseimbangan antara presisi dan recall. Berikut adalah perhitungan F1-score model XGBoost:
+
+\begin{equation}
+    \text{F1-score} = 2 \cdot \frac{\text{Presisi} \cdot \text{Recall}}{\text{Presisi} + \text{Recall}} = 2 \cdot \frac{0.482 \cdot 0.695}{0.482 + 0.695} \approx 0.568
+\end{equation}
+
+F1-score model XGBoost adalah sekitar 56.8\%. Ini menunjukkan bahwa model ini memiliki keseimbangan yang cukup baik antara presisi dan recall, meskipun masih ada ruang untuk perbaikan, terutama dalam hal menangkap pelanggan yang churn.
+
+\subsubsection*{ROC-AUC}
+ROC-AUC (Receiver Operating Characteristic - Area Under the Curve) adalah metrik yang digunakan untuk mengukur kemampuan model dalam membedakan antara kelas positif dan negatif. Adapun nilai ROC-AUC yang didapatkan dari model XGBoost adalah 0.7908601705224905. Nilai ini menunjukkan bahwa model memiliki kemampuan yang cukup baik dalam membedakan antara pelanggan yang churn dan tidak churn.
+
+Nilai ROC-AUC berkisar antara 0 hingga 1, di mana nilai 0.5 menunjukkan model yang tidak lebih baik dari tebakan acak, sedangkan nilai 1 menunjukkan model yang sempurna. Dengan nilai 0.7908601705224905, model XGBoost ini menunjukkan performa yang cukup baik dalam memprediksi churn pelanggan.
+
+\subsubsection{Hasil XGBoost dengan hyperparameter tuning}
+
+Setelah memperoleh hasil dari model XGBoost tanpa hyperparameter tuning, langkah selanjutnya adalah melakukan \textit{hyperparameter tuning} untuk meningkatkan performa model, khususnya dalam hal \textit{recall} yang menjadi fokus utama pada kasus prediksi \textit{churn}. Proses \textit{tuning} dilakukan menggunakan \texttt{RandomizedSearchCV} dengan skema \textit{cross-validation}, di mana metrik utama yang digunakan sebagai acuan pemilihan model terbaik adalah \textit{recall}.
+
+Ruang pencarian (search space) untuk parameter model XGBoost dirancang dengan mempertimbangkan keseimbangan antara kompleksitas model dan risiko overfitting, yaitu sebagai berikut:
+
+% # 2) Ruang pencarian hyperparameter
+% #    Catatan efek:
+% #    - learning_rate kecil + n_estimators besar → model halus (umum di boosting)
+% #    - max_depth & min_child_weight → kontrol kompleksitas tree
+% #    - subsample & colsample_bytree → randomization (kurangi overfit)
+% #    - gamma, reg_alpha, reg_lambda → regularisasi tambahan
+% #    - scale_pos_weight → penting utk imbalance (sekitar rasio neg/pos)
+% param_dist = {
+%     "n_estimators": randint(200, 1001),           # 200..1000
+%     "learning_rate": loguniform(1e-3, 3e-1),      # ~0.001..0.3
+%     "max_depth": randint(3, 11),                  # 3..10
+%     "min_child_weight": randint(1, 11),           # 1..10
+%     "subsample": uniform(0.5, 0.5),               # 0.5..1.0
+%     "colsample_bytree": uniform(0.5, 0.5),        # 0.5..1.0
+%     "gamma": loguniform(1e-8, 1e0),               # 1e-8..1
+%     "reg_alpha": loguniform(1e-8, 1e0),           # L1
+%     "reg_lambda": loguniform(1e-3, 1e2),          # L2
+%     "scale_pos_weight": [0.5*spw_base, spw_base, 1.5*spw_base, 2*spw_base]
+% }
+
+\begin{table}[H]
+    \centering
+    \caption{Ruang Pencarian Hyperparameter XGBoost}
+    \label{tab:search_space_xgboost}
+    \begin{tabular}{|l|l|}
+        \hline
+        \textbf{Hyperparameter} & \textbf{Nilai yang diuji} \\ \hline
+        n\_estimators & 200, 201, ..., 1000 \\ \hline
+        learning\_rate & 0.001, 0.002, ..., 0.3 \\ \hline
+        max\_depth & 3, 4, ..., 10 \\ \hline
+        min\_child\_weight & 1, 2, ..., 10 \\ \hline
+        subsample & 0.5, 0.6, ..., 1.0 \\ \hline
+        colsample\_bytree & 0.5, 0.6, ..., 1.0 \\ \hline
+        gamma & $10^{-8}$, $10^{-7}$, ..., $10^{0}$ \\ \hline
+        reg\_alpha & $10^{-8}$, $10^{-7}$, ..., $10^{0}$ \\ \hline
+        reg\_lambda & $10^{-3}$, $10^{-2}$, ..., $10^{2}$ \\ \hline
+        scale\_pos\_weight & [1.5, 2.0] (dengan spw base) \\ \hline
+    \end{tabular}
+\end{table}
+
+Dari tabel di atas, 80 iterasi \texttt{RandomizedSearchCV} dilakukan untuk mencari kombinasi hyperparameter yang optimal. Proses ini bertujuan untuk menemukan konfigurasi yang memberikan nilai \textit{recall} tertinggi, sehingga model dapat lebih efektif dalam mendeteksi pelanggan yang berpotensi churn.
+
+Setelah dilakukan \texttt{RandomizedSearchCV}, diperoleh confusion matrix dari model XGBoost yang telah dioptimasi hyperparameternya, seperti pada Gambar \ref{fig:xgboost_tuned}. Confusion matrix ini menunjukkan performa model dalam mengklasifikasikan data uji setelah proses tuning.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{gambar/xgboosttuned.png}
+    \caption{Confusion Matrix Model XGBoost dengan Hyperparameter Tuning}
+    \label{fig:xgboost_tuned}
+\end{figure}
+
+Dari gambar \ref{fig:xgboost_tuned}, kita dapat mengidentifikasi performa model XGBoost yang telah dioptimasi hyperparameternya. Confusion matrix ini memberikan informasi tentang jumlah prediksi yang benar dan salah untuk masing-masing kelas (churn dan tidak churn). Detailnya adalah sebagai berikut:
+
+\begin{itemize}
+    \item True Negative (TN): 446 (Pelanggan yang benar-benar tidak churn dan diprediksi tidak churn)
+    \item False Positive (FP): 587 (Pelanggan yang tidak churn, tetapi diprediksi churn)
+    \item False Negative (FN): 19 (Pelanggan yang churn, tetapi diprediksi tidak churn)
+    \item True Positive (TP): 355 (Pelanggan yang benar-benar churn dan diprediksi churn)
+\end{itemize}
+
+Setelah mendapatkan confusion matrix, kita dapat menghitung beberapa metrik evaluasi untuk model XGBoost yang telah dioptimasi hyperparameternya. Metrik yang umum digunakan adalah akurasi, presisi, recall, dan F1-score.
+
+\subsubsection*{Akurasi}
+
+Akurasi adalah proporsi prediksi yang benar dari total prediksi yang dilakukan oleh model. Berikut adalah perhitungan akurasi model XGBoost setelah hyperparameter tuning:
+
+\begin{equation}
+    \text{Akurasi} = \frac{TP + TN}{TP + TN + FP + FN} = \frac{355 + 446}{355 + 446 + 587 + 19} = \frac{801}{1407} \approx 0.569
+\end{equation}
+
+Akurasi model XGBoost setelah hyperparameter tuning adalah sekitar 56.9\%. Ini menunjukkan bahwa model ini mampu memprediksi dengan benar sekitar 56.9\% dari total data uji yang diberikan.
+
+\subsubsection*{Precision}
+
+Precision adalah proporsi prediksi positif yang benar dari total prediksi positif yang dilakukan oleh model. Berikut adalah perhitungan presisi model XGBoost setelah hyperparameter tuning:
+
+\begin{equation}
+    \text{Presisi} = \frac{TP}{TP + FP} = \frac{355}{355 + 587} = \frac{355}{942} \approx 0.377
+\end{equation}
+
+Presisi model XGBoost setelah hyperparameter tuning adalah sekitar 37.7\%. Ini menunjukkan bahwa dari semua pelanggan yang diprediksi churn, hanya sekitar 37.7\% yang benar-benar churn. Hal ini mengindikasikan bahwa model ini masih menghasilkan cukup banyak false positive, yaitu pelanggan yang diprediksi churn padahal sebenarnya tidak.
+
+\subsubsection*{Recall}
+
+Recall adalah proporsi prediksi positif yang benar dari total aktual positif. Berikut adalah perhitungan recall model XGBoost setelah hyperparameter tuning:
+
+\begin{equation}
+    \text{Recall} = \frac{TP}{TP + FN} = \frac{355}{355 + 19} = \frac{355}{374} \approx 0.949
+\end{equation}
+
+Recall model XGBoost setelah hyperparameter tuning adalah sekitar 94.9\%. Ini menunjukkan bahwa model ini mampu menangkap sekitar 94.9\% dari pelanggan yang sebenarnya churn, namun masih ada 5.1\% pelanggan churn yang tidak terdeteksi oleh model.
+
+\subsubsection*{F1-score}
+
+F1-score adalah rata-rata harmonis dari presisi dan recall. F1-score memberikan gambaran yang lebih baik tentang keseimbangan antara presisi dan recall. Berikut adalah perhitungan F1-score model XGBoost setelah hyperparameter tuning:
+
+\begin{equation}
+    \text{F1-score} = 2 \cdot \frac{\text{Presisi} \cdot \text{Recall}}{\text{Presisi} + \text{Recall}} = 2 \cdot \frac{0.377 \cdot 0.949}{0.377 + 0.949} \approx 0.528
+\end{equation}
+
+F1-score model XGBoost setelah hyperparameter tuning adalah sekitar 52.8\%. Ini menunjukkan bahwa model ini memiliki keseimbangan yang cukup baik antara presisi dan recall, meskipun masih ada ruang untuk perbaikan, terutama dalam hal menangkap pelanggan yang churn.
+
+\subsubsection*{ROC-AUC}
+
+ROC-AUC (Receiver Operating Characteristic - Area Under the Curve) adalah metrik yang digunakan untuk mengukur kemampuan model dalam membedakan antara kelas positif dan negatif. Adapun nilai ROC-AUC yang didapatkan dari model XGBoost setelah hyperparameter tuning adalah 0.8276. Nilai ini menunjukkan bahwa model memiliki kemampuan yang cukup baik dalam membedakan antara pelanggan yang churn dan tidak churn.
+
+Nilai ROC-AUC berkisar antara 0 hingga 1, di mana nilai 0.5 menunjukkan model yang tidak lebih baik dari tebakan acak, sedangkan nilai 1 menunjukkan model yang sempurna. Dengan nilai 0.8276, model XGBoost ini menunjukkan performa yang cukup baik dalam memprediksi churn pelanggan.
+
+\subsubsection{Parameter Terbaik}
+
+% Fitting 5 folds for each of 80 candidates, totalling 400 fits
+% Best params (berdasarkan Recall CV):
+% {'colsample_bytree': np.float64(0.8005575058716043), 'gamma': np.float64(0.004619347374377372), 'learning_rate': np.float64(0.001124579825911934), 'max_depth': 4, 'min_child_weight': 8, 'n_estimators': 691, 'reg_alpha': np.float64(0.3224197761544067), 'reg_lambda': np.float64(0.0010090061869151559), 'scale_pos_weight': np.float64(5.525083612040134), 'subsample': np.float64(0.5917022549267169)}
+
+Nilai-nilai di atas diperoleh dari proses \texttt{RandomizedSearchCV} yang telah dilakukan sebelumnya. Adapun kombinasi hyperparameter untuk mendapatkan hasil di atas ditunjukkan pada Tabel \ref{tab:best_params_xgboost}. Kombinasi ini merupakan hasil terbaik yang diperoleh dari proses tuning hyperparameter, yang bertujuan untuk meningkatkan performa model dalam mendeteksi pelanggan yang churn.
+
+\begin{table}[H]
+    \centering
+    \caption{Kombinasi Hyperparameter Terbaik (RandomizedSearchCV)}
+    \label{tab:best_params_xgboost}
+    \begin{tabular}{|l|l|}
+        \hline
+        \textbf{Hyperparameter} & \textbf{Nilai Terbaik} \\ \hline
+        \texttt{colsample\_bytree} & 0.8006 \\ \hline
+        \texttt{gamma} & 0.0046 \\ \hline
+        \texttt{learning\_rate} & 0.0011 \\ \hline
+        \texttt{max\_depth} & 4 \\ \hline
+        \texttt{min\_child\_weight} & 8 \\ \hline
+        \texttt{n\_estimators} & 691 \\ \hline
+        \texttt{reg\_alpha} & 0.3224 \\ \hline
+        \texttt{reg\_lambda} & 0.0010 \\ \hline
+        \texttt{scale\_pos\_weight} & 5.5251 \\ \hline
+        \texttt{subsample} & 0.5917 \\ \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{Perbandingan Hasil XGBoost Sebelum dan Sesudah Hyperparameter Tuning}
+
+Setelah melakukan hyperparameter tuning, kita dapat membandingkan hasil model XGBoost sebelum dan sesudah tuning. Tabel \ref{tab:comparison_xgboost} menunjukkan perbandingan metrik evaluasi antara model baseline dan model yang telah dioptimasi hyperparameter.
+
+\begin{table}[H]
+    \centering
+    \caption{Perbandingan Hasil Model XGBoost Sebelum dan Sesudah Hyperparameter Tuning}
+    \label{tab:comparison_xgboost}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        \textbf{Metrik} & \textbf{Sebelum Tuning} & \textbf{Setelah Tuning} \\ \hline
+        Akurasi & 72.0\% & 56.9\% \\ \hline
+        Presisi & 48.2\% & 37.7\% \\ \hline
+        Recall & 69.5\% & 94.9\% \\ \hline
+        F1-score & 56.8\% & 52.8\% \\ \hline
+        ROC-AUC & 0.7909 & 0.8276 \\ \hline
+    \end{tabular}
+\end{table}
+
+Dari tabel \ref{tab:comparison_xgboost}, dapat dilihat bahwa setelah melakukan hyperparameter tuning, model XGBoost mengalami peningkatan yang signifikan pada metrik recall, yaitu dari 69.5\% menjadi 94.9\%. Hal ini menunjukkan bahwa model yang telah dioptimasi lebih baik dalam mendeteksi pelanggan yang berpotensi churn.
+
+Namun, akurasi dan presisi model mengalami penurunan, yaitu dari 72.0\% menjadi 56.9\% untuk akurasi dan dari 48.2\% menjadi 37.7\% untuk presisi. Meskipun demikian, peningkatan recall yang signifikan menunjukkan bahwa model ini lebih efektif dalam menangkap pelanggan churn, yang merupakan tujuan utama dari analisis ini.
+
+Meskipun akurasi menurun, peningkatan recall menunjukkan bahwa model ini lebih fokus pada deteksi pelanggan churn, yang merupakan prioritas utama dalam konteks ini. Nilai ROC-AUC juga meningkat dari 0.7909 menjadi 0.8276, menunjukkan bahwa model XGBoost yang telah dioptimasi lebih baik dalam membedakan antara pelanggan yang churn dan tidak churn.
+
+\subsection{Perbandingan Model Logistic Regression, Decision Tree, Random Forest, dan XGBoost Sebelum dan Sesudah Hyperparameter Tuning}
+Setelah melakukan pengujian dan evaluasi pada model Logistic Regression, Decision Tree, Random Forest, dan XGBoost, kita dapat membandingkan hasil dari masing-masing model sebelum dan sesudah hyperparameter tuning. Tabel \ref{tab:comparison_all_models} menunjukkan perbandingan metrik evaluasi antara keempat model tersebut.
+
+\begin{table}[H]
+    \centering
+    \begin{threeparttable}
+        \caption{Perbandingan Hasil Model Sebelum dan Sesudah Hyperparameter Tuning}
+        \label{tab:comparison_all_models}
+        \begin{tabular}{|l|c|c|c|c|}
+            \hline
+            \textbf{Metrik} & \textbf{Logistic Regression} & \textbf{Decision Tree} & \textbf{Random Forest} & \textbf{XGBoost} \\ \hline
+            Akurasi & 72.4\% / 71.7\% & 72.4\% / 63.6\% & 74.9\% / 70.8\% & 72.0\% / 56.9\% \\ \hline
+            Presisi & 48.8\% / 48.1\% & 48.5\% / 41.3\% & 52.6\% / 47.1\% & 48.2\% / 37.7\% \\ \hline
+            Recall & 79.1\% / 80.4\% & 58.8\% / 87.2\% & 53.5\% / 78.9\% & 69.5\% / 94.9\% \\ \hline
+            F1-score & 60.4\% / 60.4\% & 53.1\% / 56.1\% & 53.0\% / 58.9\% & 56.8\% / 52.8\% \\ \hline
+            ROC-AUC & 0.8279 / 0.8279 & 0.6866 / 0.7880 & 0.7782 / 0.8216 & 0.7909 / 0.8276 \\ \hline
+        \end{tabular}
+        \begin{tablenotes}
+            \item Nilai sebelum tanda garis miring (/) adalah hasil sebelum hyperparameter tuning, sedangkan nilai setelah tanda garis miring adalah hasil setelah hyperparameter tuning.
+        \end{tablenotes}
+    \end{threeparttable}
+\end{table}
+
+Dari tabel \ref{tab:comparison_all_models}, kita dapat melihat perbandingan performa masing-masing model sebelum dan sesudah hyperparameter tuning. Pertama tama kita akan analisa kenaikan dan 2 metric utama yang diperhatikan yaitu recall dan ROC-AUC.
+
+\subsubsection{Analisis Nilai Recall}
+Dari tabel \ref{tab:comparison_all_models}, kita dapat membandingkan recall yang dihasilkan dari setiap model sebelum dan sesudah hyperparameter tuning. Recall adalah metrik yang sangat penting dalam konteks prediksi churn, karena menunjukkan seberapa baik model dalam menangkap pelanggan yang sebenarnya churn. Berikut adalah rincian recall untuk masing-masing model:
+\begin{itemize}
+    \item \textbf{Logistic Regression}: Recall tertinggi yang didapatkan adalah model Logistic Regression setelah hyperparameter tuning, yaitu 80.4\%.
+    \item \textbf{Decision Tree}: Recall tertinggi yang didapatkan adalah model Decision Tree setelah hyperparameter tuning, yaitu 87.2\%.
+    \item \textbf{Random Forest}: Recall tertinggi yang didapatkan adalah model Random Forest setelah hyperparameter tuning, yaitu 78.9\%.
+    \item \textbf{XGBoost}: Recall tertinggi yang didapatkan adalah model XGBoost setelah hyperparameter tuning, yaitu 94.9\%.
+\end{itemize}
+Hal tersebut menunjukan bahwa model XGBoost memiliki recall tertinggi, yaitu 94.9\%, yang menunjukkan bahwa model ini sangat efektif dalam mendeteksi pelanggan yang berpotensi churn. Hasil eksperimen menunjukkan bahwa metode boosting (XGBoost) secara konsisten memberikan kinerja recall yang lebih tinggi dibandingkan metode bagging (Random Forest) maupun model tunggal (Decision Tree, Logistic Regression). Hal ini konsisten dengan karakteristik boosting yang fokus memperbaiki kesalahan prediksi sebelumnya, sehingga lebih efektif dalam mendeteksi pelanggan churn.
+
+\subsubsection{Analisis Kenaikan Recall}
+Dari tabel \ref{tab:comparison_all_models}, kita dapat melihat bahwa semua model mengalami peningkatan yang signifikan pada metrik recall setelah melakukan hyperparameter tuning. Berikut adalah rincian kenaikan recall untuk masing-masing model:
+
+\begin{itemize}
+    \item \textbf{Logistic Regression}: Recall meningkat dari 79.1\% menjadi 80.4\%, dengan kenaikan sebesar 1.3\%.
+    \item \textbf{Decision Tree}: Recall meningkat dari 58.8\% menjadi 87.2\%, dengan kenaikan yang sangat signifikan sebesar 28.4\%.
+    \item \textbf{Random Forest}: Recall meningkat dari 53.5\% menjadi 78.9\%, dengan kenaikan sebesar 25.4\%.
+    \item \textbf{XGBoost}: Recall meningkat dari 69.5\% menjadi 94.9\%, dengan kenaikan yang sangat signifikan sebesar 25.4\%.
+\end{itemize}
+
+Dari analisis di atas, kita dapat melihat bahwa model Decision Tree, Random Forest, dan XGBoost mengalami peningkatan recall yang paling signifikan, yaitu masing-masing sebesar 28.4\%, dan 25.4\% baik pada Random Forest dan XGBoost. Hal ini bahwa pengaruh hyperparameter tuning sangat besar dalam meningkatkan kemampuan model untuk mendeteksi pelanggan yang churn. Meskipun Logistic Regression juga mengalami peningkatan, namun kenaikannya tidak sebesar model lainnya.
+
+\subsection{Analisis Nilai ROC-AUC}
+ROC-AUC (Receiver Operating Characteristic - Area Under the Curve) adalah metrik yang digunakan untuk mengukur kemampuan model dalam membedakan antara kelas positif dan negatif. Nilai ROC-AUC berkisar antara 0 hingga 1, di mana nilai 0.5 menunjukkan model yang tidak lebih baik dari tebakan acak, sedangkan nilai 1 menunjukkan model yang sempurna. Dalam konteks ini, kita akan menganalisis nilai ROC-AUC dari masing-masing model sebelum dan sesudah hyperparameter tuning.
+\begin{itemize}
+    \item \textbf{Logistic Regression}: ROC-AUC terbaik tetap pada kedua jenis model logistic regression yaitu sebesar 0.8279, tidak ada perubahan.
+    \item \textbf{Decision Tree}: ROC-AUC tertinggi yang didapatkan adalah model Decision Tree setelah hyperparameter tuning, yaitu 0.7880.
+    \item \textbf{Random Forest}: ROC-AUC tertinggi yang didapatkan adalah model Random Forest setelah hyperparameter tuning, yaitu 0.8216.
+    \item \textbf{XGBoost}: ROC-AUC tertinggi yang didapatkan adalah model XGBoost setelah hyperparameter tuning, yaitu 0.8276.
+\end{itemize}
+Dari analisis di atas, kita dapat melihat bahwa model XGBoost memiliki nilai ROC-AUC tertinggi, yaitu 0.8276, yang menunjukkan bahwa model ini sangat baik dalam membedakan antara pelanggan yang churn dan tidak churn. Hal ini konsisten dengan hasil recall yang diperoleh sebelumnya, di mana model XGBoost juga menunjukkan performa terbaik dalam mendeteksi pelanggan churn.
+
+\subsubsection{Analisis Kenaikan ROC-AUC}
+
+Dari tabel \ref{tab:comparison_all_models}, kita juga dapat melihat peningkatan nilai ROC-AUC untuk semua model setelah melakukan hyperparameter tuning. Berikut adalah rincian kenaikan ROC-AUC untuk masing-masing model:
+\begin{itemize}
+    \item \textbf{Logistic Regression}: ROC-AUC tetap pada 0.8279, tidak ada perubahan.
+    \item \textbf{Decision Tree}: ROC-AUC meningkat dari 0.6866 menjadi 0.7880, dengan kenaikan sebesar 0.1014.
+    \item \textbf{Random Forest}: ROC-AUC meningkat dari 0.7782 menjadi 0.8216, dengan kenaikan sebesar 0.0434.
+    \item \textbf{XGBoost}: ROC-AUC meningkat dari 0.7909 menjadi 0.8276, dengan kenaikan sebesar 0.0367.
+\end{itemize}
+Dari analisis di atas, kita dapat melihat bahwa model Decision Tree mengalami peningkatan ROC-AUC yang paling signifikan, yaitu sebesar 0.1014. Hal ini menunjukkan bahwa model ini lebih baik dalam membedakan antara pelanggan yang churn dan tidak churn setelah dilakukan hyperparameter tuning. Sementara itu, model Random Forest dan XGBoost juga mengalami peningkatan ROC-AUC, meskipun tidak sebesar Decision Tree.
+
+\subsection{Kesimpulan Perbandingan Model}
+Dari perbandingan hasil model Logistic Regression, Decision Tree, Random Forest, dan XGBoost sebelum dan sesudah hyperparameter tuning, kita dapat menarik beberapa kesimpulan:
+\begin{itemize}
+    \item \textbf{Model XGBoost} menunjukkan performa terbaik dalam hal recall, yaitu 94.9\%, yang menunjukkan bahwa model ini sangat efektif dalam mendeteksi pelanggan yang berpotensi churn. Selain itu, nilai ROC-AUC juga tinggi, yaitu 0.8276, menunjukkan kemampuan model dalam membedakan antara pelanggan yang churn dan tidak churn.
+    \item \textbf{Model Decision Tree} mengalami peningkatan recall yang signifikan setelah hyperparameter tuning, yaitu dari 58.8\% menjadi 87.2\%. Meskipun nilai ROC-AUC-nya tidak setinggi XGBoost, peningkatan ini menunjukkan bahwa model ini dapat dioptimasi lebih lanjut untuk meningkatkan performanya.
+    \item \textbf{Model Random Forest} juga menunjukkan peningkatan recall yang signifikan, yaitu dari 53.5\% menjadi 78.9\%. Nilai ROC-AUC-nya juga meningkat, meskipun tidak sebesar Decision Tree.
+    \item \textbf{Model Logistic Regression} memiliki performa yang stabil dengan recall sekitar 80.4\% setelah hyperparameter tuning, namun tidak mengalami peningkatan yang signifikan dibandingkan model lainnya.
+    \item Secara keseluruhan, model XGBoost adalah yang paling unggul dalam hal deteksi churn, diikuti oleh Decision Tree dan Random Forest. Logistic Regression memiliki performa yang baik, namun tidak sebaik model-model lainnya dalam konteks ini.
+    \item Hyperparameter tuning terbukti efektif dalam meningkatkan performa model, terutama pada model Decision Tree, Random Forest, dan XGBoost. Hal ini menunjukkan pentingnya proses tuning untuk mendapatkan model yang optimal dalam konteks prediksi churn.
+    \item Meskipun Logistic Regression memiliki performa yang baik, model ini mungkin tidak cukup kompleks untuk menangkap pola yang lebih rumit dalam data churn. Oleh karena itu, model berbasis pohon keputusan seperti Decision Tree, Random Forest, dan XGBoost lebih unggul dalam konteks ini.
+    \item Metode boosting (XGBoost) secara konsisten memberikan kinerja recall yang lebih tinggi dibandingkan metode bagging (Random Forest) maupun model tunggal (Decision Tree, Logistic Regression). Hal ini konsisten dengan karakteristik boosting yang fokus memperbaiki kesalahan prediksi sebelumnya, sehingga lebih efektif dalam mendeteksi pelanggan churn.
+\end{itemize}
+
+Dengan demikian, model XGBoost adalah pilihan terbaik untuk kasus prediksi churn ini, terutama setelah dilakukan hyperparameter tuning yang signifikan meningkatkan performa model. Model ini dapat digunakan untuk membantu perusahaan dalam mengidentifikasi pelanggan yang berpotensi churn dan mengambil tindakan yang tepat untuk mempertahankan mereka.
+
+\subsection{Implikasi Bisnis}
+Dalam konteks bisnis, hasil analisis ini memiliki implikasi yang signifikan bagi perusahaan dalam mengelola churn pelanggan. Berikut adalah beberapa poin penting yang dapat diambil dari hasil analisis ini:
+\begin{itemize}
+    \item \textbf{Identifikasi Pelanggan Berisiko Churn}: Model XGBoost yang telah dioptimasi dapat digunakan untuk mengidentifikasi pelanggan yang berisiko tinggi untuk churn. Dengan mengetahui pelanggan mana yang berpotensi churn, perusahaan dapat mengambil tindakan proaktif untuk mempertahankan mereka.
+    \item \textbf{Strategi Pemasaran yang Lebih Efektif}: Dengan informasi tentang pelanggan yang berisiko churn, perusahaan dapat merancang strategi pemasaran yang lebih efektif, seperti menawarkan diskon atau promosi khusus kepada pelanggan tersebut untuk mendorong mereka tetap menggunakan layanan.
+    \item \textbf{Peningkatan Layanan Pelanggan}: Hasil analisis ini juga dapat digunakan untuk meningkatkan layanan pelanggan. Perusahaan dapat fokus pada peningkatan pengalaman pelanggan bagi mereka yang berisiko churn, sehingga dapat mengurangi tingkat churn.
+    \item \textbf{Pengalokasian Sumber Daya yang Lebih Baik}: Dengan mengetahui pelanggan mana yang berisiko churn, perusahaan dapat mengalokasikan sumber daya dengan lebih efisien. Misalnya, perusahaan dapat mengarahkan tim layanan pelanggan untuk fokus pada pelanggan yang berisiko tinggi.
+    \item \textbf{Peningkatan Retensi Pelanggan}: Dengan menerapkan strategi berdasarkan hasil analisis ini, perusahaan diharapkan dapat meningkatkan retensi pelanggan dan mengurangi tingkat churn. Hal ini akan berdampak positif pada pendapatan dan profitabilitas perusahaan.
+    \item \textbf{Pengembangan Produk dan Layanan Baru}: Hasil analisis ini juga dapat memberikan wawasan tentang kebutuhan dan preferensi pelanggan. Dengan memahami faktor-faktor yang mempengaruhi churn, perusahaan dapat mengembangkan produk atau layanan baru yang lebih sesuai dengan kebutuhan pelanggan.
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     
 
