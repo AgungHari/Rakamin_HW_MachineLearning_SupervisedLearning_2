@@ -51,6 +51,7 @@ Repositori ini berisi rangkaian materi dan homework selama mengikuti Bootcamp di
 │   └── pitchdeck_mentahan.pptx
 ├── modul 1 & 2.pdf
 ├── .gitignore
+├── cover.jpg
 └── README.md
 ```
 ## ⚠️ Disclaimer
