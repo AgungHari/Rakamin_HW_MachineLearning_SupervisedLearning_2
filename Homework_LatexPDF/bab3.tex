@@ -342,18 +342,29 @@ Analisis fitur numerik dilakukan untuk memahami distribusi dari setiap fitur num
 
 Pertama-tama, kita akan melihat ukuran pemusatan dari setiap fitur numerik. Kita akan menggunakan .describe() untuk melihat ukuran pemusatan seperti mean, median, dan standar deviasi dari setiap fitur numerik. Dengan begitu kita bisa mendapatkan gambaran umum tentang distribusi dari setiap fitur numerik.
 \newpage
-\begin{lstlisting}[language=Python, caption=Ukuran Pemusatan Fitur Numerik]
-# Ukuran pemusatan fitur numerik
-        tenure  MonthlyCharges  TotalCharges
-count  7032.000000     7032.000000   7032.000000
-mean     32.421786       64.798208   2283.300441
-std      24.545260       30.085974   2266.771362
-min       1.000000       18.250000     18.800000
-25%       9.000000       35.587500    401.450000
-50%      29.000000       70.350000   1397.475000
-75%      55.000000       89.862500   3794.737500
-max      72.000000      118.750000   8684.800000
-\end{lstlisting}
+
+\begin{table}[H]
+    \centering
+    \caption{Ukuran Pemusatan Fitur Numerik}
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \textbf{Statistik} & \textbf{Tenure} & \textbf{MonthlyCharges} & \textbf{TotalCharges} \\
+        \hline
+        Count & 7032 & 7032 & 7032 \\
+        Mean & 32.42 & 64.80 & 2283.30 \\
+        Std Dev & 24.55 & 30.09 & 2266.77 \\
+        Min & 1.00 & 18.25 & 18.80 \\
+        25\% & 9.00 & 35.59 & 401.45 \\
+        50\% & 29.00 & 70.35 & 1397.48 \\
+        75\% & 55.00 & 89.86 & 3794.74 \\
+        Max & 72.00 & 118.75 & 8684.80 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+%buat tabel ukuran pemusatan dari fitur numerik berdasarkan nilai nilai yang ada pada tenure MonthlyCharges dan TotalCharges diatas
+
+
 
 Dari hasil ukuran pemusatan di atas, kita bisa melihat bahwa fitur "tenure" memiliki nilai rata-rata sekitar 32 bulan, dengan nilai minimum 1 bulan dan maksimum 72 bulan. Fitur "MonthlyCharges" memiliki nilai rata-rata sekitar 64.8, dengan nilai minimum 18.25 dan maksimum 118.75. Sedangkan fitur "TotalCharges" memiliki nilai rata-rata sekitar 2283.3, dengan nilai minimum 18.8 dan maksimum 8684.8.
 
@@ -481,6 +492,7 @@ Kita akan melakukan uji chi-square untuk setiap fitur kategorikal yang ada dalam
     \item Gender
     \item PhoneService
     \item MultipleLines
+    \item TotalCharges
 \end{itemize}
 
 Dengan membuang fitur yang tidak relevan, kita akan mendapatkan fitur-fitur yang lebih fokus dan dapat meningkatkan performa model klasifikasi. Adapun fitur-fitur yang akan digunakan dalam model klasifikasi adalah sebagai berikut:
@@ -495,6 +507,7 @@ Dengan membuang fitur yang tidak relevan, kita akan mendapatkan fitur-fitur yang
     \item TechSupport
     \item StreamingTV
     \item StreamingMovies
+    \item MonthlyCharges
     \item PaperlessBilling
     \item PaymentMethod
     \item Contract
